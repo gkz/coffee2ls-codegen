@@ -37,8 +37,6 @@ if you wanted to modify x
 
 - If you are using nested list comprehensions (eg. (x + y for x in [1, 2] for y in [3, 4]), you will need to change how you handle the result as instead of being a lists within a list as in CoffeScript (the result of the example would be [[4,5],[5,6]]), the result is flattened (the result of the example in LiveScript would be [4,5,5,6])
 
-- Change the name of any of your variables named it, that, fallthrough, or otherwise. Those are terrible names for variables so you should change them anyway. This technically isn't required in all cases, but will be less confusing if you do so in all cases. it is used as the implicit argument of functions defined with no parameters, eg. reverse = -> it.reverse!. that refers to the value of the condition, for instance that + 2 if (x + 10)/(y - 18), that == (x + 10)/(y-18). fallthrough, if used at the end of a case block makes that block fallthrough to the next case. otherwise, if used directly after case, turns that case into default.
-
 - If you have any multiline strings non triple quoted strings (using "string" or 'string'), eg.
 
 text = "hi
@@ -71,6 +69,8 @@ Remove the parentheses from function definitions with no parameters, () -> simpl
 
 
 #################################
+
+#DONE - Change the name of any of your variables named it, that, fallthrough, or otherwise. Those are terrible names for variables so you should change them anyway. This technically isn't required in all cases, but will be less confusing if you do so in all cases. it is used as the implicit argument of functions defined with no parameters, eg. reverse = -> it.reverse!. that refers to the value of the condition, for instance that + 2 if (x + 10)/(y - 18), that == (x + 10)/(y-18). fallthrough, if used at the end of a case block makes that block fallthrough to the next case. otherwise, if used directly after case, turns that case into default. Also, xor, match, and where are reserved words
 
 #DONE delete -> delete!
 

@@ -117,6 +117,17 @@ do (exports = exports ? this.cscodegen = {}) ->
     DynamicProtoMemberAccessOp: '::'
     SoakedDynamicProtoMemberAccessOp: '?::'
 
+
+  lsReserved = [
+    'it'
+    'that'
+    'fallthrough'
+    'otherwise'
+    'where'
+    'xor'
+    'match'
+  ]
+
   # TODO: DRY this function
   # TODO: ast as context?
   exports.generate = generate = (ast, options = {}) ->
@@ -162,7 +173,11 @@ do (exports = exports ? this.cscodegen = {}) ->
             else " else #{_alternate}"
         "if #{generate ast.condition, options}#{_consequent}#{_alternate}"
 
-      when 'Identifier' then ast.data
+      when 'Identifier'
+        if ast.data in lsReserved
+          "#{ast.data}$$"
+        else
+          ast.data
 
       when 'Null' then 'null'
       when 'This' then 'this'
