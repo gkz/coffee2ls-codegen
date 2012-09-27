@@ -84,6 +84,9 @@ suite 'Operators', ->
     eq '0 % 1', generate new CS.RemOp @zero, @one
     eq 'a = 0', generate new CS.AssignOp @a, @zero
 
+  test 'non-spaced subtract is spaced', ->
+    eq 'a - b', generate new CS.SubtractOp @a, @b
+
   test 'negated binary operators', ->
     eq '0 not in 1', generate new CS.LogicalNotOp new CS.InOp @zero, @one
 

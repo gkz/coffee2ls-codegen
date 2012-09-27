@@ -83,4 +83,4 @@ Remove any JavaScript code literals, eg. `js code here`. That functionality is n
 
 Change any dually spaced property access, eg. x . y to be either spaced on only one side or not at all. A dually spaced dot is now used to compose functions.
 
-Change any non spaced identifier subtraction, eg. a-b to spaced a - b. a-1 and 1-b are still fine. This is because a-b is a valid identifier in LiveScript, equivalent to its camel case, aB.
+#DONE Change any non spaced identifier subtraction, eg. a-b to spaced a - b. a-1 and 1-b are still fine. This is because a-b is a valid identifier in LiveScript, equivalent to its camel case, aB.
