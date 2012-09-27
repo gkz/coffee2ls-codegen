@@ -8,7 +8,7 @@ Similarly, change any range syntax in for loops from for i in [x..y] to for i fr
 
 Change any list comprehensions from (x for x in list) to [x for x in list]. Any postfix loops which you do not want returning a list, change to not postfixed, eg. change increase x for x in list to for x in list then increase x. You can shave characters if you wish by using the alias to then, the fat arrow =>
 
-Change any number literals starting with a dot, eg. .5 to start with a zero 0.5
+#DONE Change any number literals starting with a dot, eg. .5 to start with a zero 0.5
 
 Change any regular expression literals from /// /// to // //
 
