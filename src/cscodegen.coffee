@@ -396,6 +396,19 @@ do (exports = exports ? this.cscodegen = {}) ->
         _expr = generate ast.expression, options
         "...#{_expr}"
 
+      when 'RegExp', 'HeregExp'
+        if ast.className is 'RegExp'
+          _exprs = ast.data
+          _symbol = '/'
+        else
+          _exprs = formatInterpolation ast.expression, options
+          _symbol = '//'
+
+        _flags = ''
+        _flags += flag for flag, state of ast.flags when state
+
+        "#{_symbol}#{_exprs}#{_symbol}#{_flags}"
+
       when 'JavaScript'
           throw new Error 'LiveScript does not support JavaScript literals'
 

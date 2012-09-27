@@ -7,8 +7,6 @@
 
 - Change any list comprehensions from (x for x in list) to [x for x in list]. Any postfix loops which you do not want returning a list, change to not postfixed, eg. change increase x for x in list to for x in list then increase x.
 
-- Change any regular expression literals from /// /// to // //
-
 - Change your constructor functions in your classes from being defined as
 
 class Item
@@ -69,6 +67,8 @@ Remove the parentheses from function definitions with no parameters, () -> simpl
 
 
 #################################
+
+# DONE - Change any regular expression literals from /// /// to // //
 
 #DONE - Change the name of any of your variables named it, that, fallthrough, or otherwise. Those are terrible names for variables so you should change them anyway. This technically isn't required in all cases, but will be less confusing if you do so in all cases. it is used as the implicit argument of functions defined with no parameters, eg. reverse = -> it.reverse!. that refers to the value of the condition, for instance that + 2 if (x + 10)/(y - 18), that == (x + 10)/(y-18). fallthrough, if used at the end of a case block makes that block fallthrough to the next case. otherwise, if used directly after case, turns that case into default. Also, xor, match, and where are reserved words
 
