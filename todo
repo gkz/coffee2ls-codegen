@@ -1,9 +1,6 @@
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
 
-
-#DONE Change all your fat arrows => to wavy arrows ~>
-
 Change all your block comments ### ### to /* */
 
 Change any range syntax creating lists from [x..y] to [x to y] and change [x...y] to [x til y]
@@ -12,13 +9,7 @@ Similarly, change any range syntax in for loops from for i in [x..y] to for i fr
 
 Change any list comprehensions from (x for x in list) to [x for x in list]. Any postfix loops which you do not want returning a list, change to not postfixed, eg. change increase x for x in list to for x in list then increase x. You can shave characters if you wish by using the alias to then, the fat arrow =>
 
-#DONE Change any number literals starting with a dot, eg. .5 to start with a zero 0.5
-
 Change any regular expression literals from /// /// to // //
-
-#DONE Change any splats you are using from (args...) -> to be prefixed like (...args) ->
-
-#DONE Also spreads, eg. a = f ...b need to be prefixed not postfixed
 
 # Currently a bug in Redux https://github.com/michaelficarra/CoffeeScriptRedux/issues/62, will probably be resolved with that
 Remove the parentheses from function definitions with no parameters, () -> simply becomes -> - this is because () is always a call.
@@ -31,11 +22,9 @@ class Item
 to simply being functions at the top level of your class body, eg.
 
 class Item
-  -> 
+  ->
 
 Change any calls to super from super to super ... - this is because super is a direct reference to the parent function rather than a call itself.
-
-#DONE Change any bitwise operators to themselves surrounded by dots. Eg. & is now .&. and >> is now .>>.
 
 If you are modifying variables in upper scopes at any time, eg.
 
@@ -82,5 +71,16 @@ f do
 Remove any JavaScript code literals, eg. `js code here`. That functionality is no longer availible in LiveScript. Rewrite the code to use LiveScript instead.
 
 Change any dually spaced property access, eg. x . y to be either spaced on only one side or not at all. A dually spaced dot is now used to compose functions.
+
+
+#DONE Change all your fat arrows => to wavy arrows ~>
+
+#DONE Change any number literals starting with a dot, eg. .5 to start with a zero 0.5
+
+#DONE Change any splats you are using from (args...) -> to be prefixed like (...args) ->
+
+#DONE Also spreads, eg. a = f ...b need to be prefixed not postfixed
+
+#DONE Change any bitwise operators to themselves surrounded by dots. Eg. & is now .&. and >> is now .>>.
 
 #DONE Change any non spaced identifier subtraction, eg. a-b to spaced a - b. a-1 and 1-b are still fine. This is because a-b is a valid identifier in LiveScript, equivalent to its camel case, aB.
