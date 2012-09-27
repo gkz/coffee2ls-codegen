@@ -1,3 +1,7 @@
+# Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
+====
+
+
 #DONE Change all your fat arrows => to wavy arrows ~>
 
 Change all your block comments ### ### to /* */
@@ -12,7 +16,7 @@ Change any list comprehensions from (x for x in list) to [x for x in list]. Any 
 
 Change any regular expression literals from /// /// to // //
 
-Change any splats you are using from (args...) -> to be prefixed like (...args) ->
+#DONE Change any splats you are using from (args...) -> to be prefixed like (...args) ->
 
 Remove the parentheses from function definitions with no parameters, () -> simply becomes -> - this is because () is always a call.
 

@@ -37,3 +37,8 @@ suite 'Function Literals', ->
       new CS.SeqOp @x, @y
       new CS.PlusOp @x, @y
     ]
+
+  test 'rest in function parameter', ->
+    eq '(...x) ->', generate new CS.Function [new CS.Rest @x], null
+    eq '(y, ...x) ->', generate new CS.Function [@y, new CS.Rest @x], null
+    eq '(...x, y) ->', generate new CS.Function [(new CS.Rest @x), @y], null

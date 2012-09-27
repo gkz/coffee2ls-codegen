@@ -374,6 +374,10 @@ do (exports = exports ? this.cscodegen = {}) ->
         _right = formatInterpolation ast.right, options
         "\"#{_left}#{_right}\""
 
+      when 'Rest'
+        _expr = generate ast.expression, options
+        "...#{_expr}"
+
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
 
