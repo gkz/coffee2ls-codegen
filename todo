@@ -1,8 +1,6 @@
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
 
-- delete -> delete!
-
 - Change any range syntax creating lists from [x..y] to [x to y] and change [x...y] to [x til y]
 
 - Similarly, change any range syntax in for loops from for i in [x..y] to for i from x to y and change for i in [x...y] to for i from x til y
@@ -73,6 +71,8 @@ Remove the parentheses from function definitions with no parameters, () -> simpl
 
 
 #################################
+
+#DONE delete -> delete!
 
 #DONE Change all your fat arrows => to wavy arrows ~>
 

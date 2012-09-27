@@ -294,6 +294,9 @@ do (exports = exports ? this.cscodegen = {}) ->
           precedence: prec
         "#{_op}#{generate ast.expression, options}"
 
+      when 'DeleteOp'
+        "delete! #{generate ast.expression, options}"
+
       when 'UnaryExistsOp', 'PostIncrementOp', 'PostDecrementOp'
         _op = operators[ast.className]
         prec = precedence[ast.className]

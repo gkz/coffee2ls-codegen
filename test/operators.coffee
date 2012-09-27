@@ -34,9 +34,11 @@ suite 'Operators', ->
   test 'spreads', ->
     eq 'a = f ...b', generate new CS.AssignOp @a, (new CS.FunctionApplication @f, [new CS.Spread @b])
 
+  test 'delete', ->
+    eq 'delete! a.b', generate new CS.DeleteOp new CS.MemberAccessOp @a, 'b'
+
   test 'unary prefix operators and application of function literals', ->
     eq 'new (->) 0, 1', generate new CS.NewOp @emptyFunction, [@zero, @one]
-
 
   test 'unary postfix operators', ->
     eq '0?', generate new CS.UnaryExistsOp @zero
