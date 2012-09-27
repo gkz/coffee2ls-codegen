@@ -18,6 +18,8 @@ Change any regular expression literals from /// /// to // //
 
 #DONE Change any splats you are using from (args...) -> to be prefixed like (...args) ->
 
+#DONE Also spreads, eg. a = f ...b need to be prefixed not postfixed
+
 Remove the parentheses from function definitions with no parameters, () -> simply becomes -> - this is because () is always a call.
 
 Change your constructor functions in your classes from being defined as

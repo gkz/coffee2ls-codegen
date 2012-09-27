@@ -31,6 +31,9 @@ suite 'Operators', ->
     eq 'new F 0', generate new CS.NewOp @F, [@zero]
     eq 'new (F 0) 1', generate new CS.NewOp (new CS.FunctionApplication @F, [@zero]), [@one]
 
+  test 'spreads', ->
+    eq 'a = f ...b', generate new CS.AssignOp @a, (new CS.FunctionApplication @f, [new CS.Spread @b])
+
   test 'unary prefix operators and application of function literals', ->
     eq 'new (->) 0, 1', generate new CS.NewOp @emptyFunction, [@zero, @one]
 

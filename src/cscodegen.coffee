@@ -278,7 +278,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         _right = generate ast.right, options
         "#{_left} #{_op} #{_right}"
 
-      when 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'DoOp', 'TypeofOp', 'PreIncrementOp', 'PreDecrementOp'
+      when 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'DoOp', 'TypeofOp', 'PreIncrementOp', 'PreDecrementOp', 'Spread'
         _op = operators[ast.className]
         prec = precedence[ast.className]
         if ast.className is 'LogicalNotOp'
@@ -294,7 +294,7 @@ do (exports = exports ? this.cscodegen = {}) ->
           precedence: prec
         "#{_op}#{generate ast.expression, options}"
 
-      when 'UnaryExistsOp', 'PostIncrementOp', 'PostDecrementOp', 'Spread'
+      when 'UnaryExistsOp', 'PostIncrementOp', 'PostDecrementOp'
         _op = operators[ast.className]
         prec = precedence[ast.className]
         needsParens = prec < options.precedence
