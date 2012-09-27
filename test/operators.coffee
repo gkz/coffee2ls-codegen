@@ -138,3 +138,6 @@ suite 'Operators', ->
 
   test 'combinations of static/dynamic member access operators', ->
     eq 'a.b[c]::d', generate new CS.ProtoMemberAccessOp (new CS.DynamicMemberAccessOp (new CS.MemberAccessOp @a, 'b'), @c), 'd'
+
+  test 'spaced access becomes not spaced', ->
+    eq 'a.b', generate new CS.MemberAccessOp @a, 'b'
