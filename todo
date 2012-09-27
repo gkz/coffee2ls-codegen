@@ -1,20 +1,17 @@
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
 
-Change all your block comments ### ### to /* */
+- delete -> delete!
 
-Change any range syntax creating lists from [x..y] to [x to y] and change [x...y] to [x til y]
+- Change any range syntax creating lists from [x..y] to [x to y] and change [x...y] to [x til y]
 
-Similarly, change any range syntax in for loops from for i in [x..y] to for i from x to y and change for i in [x...y] to for i from x til y
+- Similarly, change any range syntax in for loops from for i in [x..y] to for i from x to y and change for i in [x...y] to for i from x til y
 
-Change any list comprehensions from (x for x in list) to [x for x in list]. Any postfix loops which you do not want returning a list, change to not postfixed, eg. change increase x for x in list to for x in list then increase x. You can shave characters if you wish by using the alias to then, the fat arrow =>
+- Change any list comprehensions from (x for x in list) to [x for x in list]. Any postfix loops which you do not want returning a list, change to not postfixed, eg. change increase x for x in list to for x in list then increase x.
 
-Change any regular expression literals from /// /// to // //
+- Change any regular expression literals from /// /// to // //
 
-# Currently a bug in Redux https://github.com/michaelficarra/CoffeeScriptRedux/issues/62, will probably be resolved with that
-Remove the parentheses from function definitions with no parameters, () -> simply becomes -> - this is because () is always a call.
-
-Change your constructor functions in your classes from being defined as
+- Change your constructor functions in your classes from being defined as
 
 class Item
   constructor: ->
@@ -24,9 +21,9 @@ to simply being functions at the top level of your class body, eg.
 class Item
   ->
 
-Change any calls to super from super to super ... - this is because super is a direct reference to the parent function rather than a call itself.
+- Change any calls to super from super to super ... - this is because super is a direct reference to the parent function rather than a call itself.
 
-If you are modifying variables in upper scopes at any time, eg.
+- If you are modifying variables in upper scopes at any time, eg.
 
 x = 10
 do ->
@@ -40,25 +37,25 @@ do ->
 
 if you wanted to modify x
 
-If you are using nested list comprehensions (eg. (x + y for x in [1, 2] for y in [3, 4]), you will need to change how you handle the result as instead of being a lists within a list as in CoffeScript (the result of the example would be [[4,5],[5,6]]), the result is flattened (the result of the example in LiveScript would be [4,5,5,6])
+- If you are using nested list comprehensions (eg. (x + y for x in [1, 2] for y in [3, 4]), you will need to change how you handle the result as instead of being a lists within a list as in CoffeScript (the result of the example would be [[4,5],[5,6]]), the result is flattened (the result of the example in LiveScript would be [4,5,5,6])
 
-Change the name of any of your variables named it, that, fallthrough, or otherwise. Those are terrible names for variables so you should change them anyway. This technically isn't required in all cases, but will be less confusing if you do so in all cases. it is used as the implicit argument of functions defined with no parameters, eg. reverse = -> it.reverse!. that refers to the value of the condition, for instance that + 2 if (x + 10)/(y - 18), that == (x + 10)/(y-18). fallthrough, if used at the end of a case block makes that block fallthrough to the next case. otherwise, if used directly after case, turns that case into default.
+- Change the name of any of your variables named it, that, fallthrough, or otherwise. Those are terrible names for variables so you should change them anyway. This technically isn't required in all cases, but will be less confusing if you do so in all cases. it is used as the implicit argument of functions defined with no parameters, eg. reverse = -> it.reverse!. that refers to the value of the condition, for instance that + 2 if (x + 10)/(y - 18), that == (x + 10)/(y-18). fallthrough, if used at the end of a case block makes that block fallthrough to the next case. otherwise, if used directly after case, turns that case into default.
 
-If you have any multiline strings non triple quoted strings (using "string" or 'string'), eg.
+- If you have any multiline strings non triple quoted strings (using "string" or 'string'), eg.
 
-text = "hi 
+text = "hi
 
         there"
 you will have to change them as in CoffeeScript this would be "hi         there" while LiveScript ignores indentation after newlines so it would be "hi there"
 
-and, or and spaced . and ?. close implicit calls, so you will have to change any code involving those where you have depended on CoffeeScript to not close the call. Eg. f a .g b or h c would be f(a.g(b || h(c))) in CoffeeScript and f(a).g(b) || h(c) in LiveScript.
+- and, or and spaced . and ?. close implicit calls, so you will have to change any code involving those where you have depended on CoffeeScript to not close the call. Eg. f a .g b or h c would be f(a.g(b || h(c))) in CoffeeScript and f(a).g(b) || h(c) in LiveScript.
 
-Change any dos special casing function literals to using let. Eg. in CoffeScript do ($ = jQuery) -> $ change to
+- Change any dos special casing function literals to using let. Eg. in CoffeScript do ($ = jQuery) -> $ change to
 
 let $ = jQuery
   $
 
-Change any implicit calls against blocks starting with an implicit objects to use do. Eg. change
+- Change any implicit calls against blocks starting with an implicit objects to use do. Eg. change
 
 f
   a: b
@@ -68,6 +65,14 @@ into
 f do
   a: b
 
+# Redux doesn't deal with comments yet - block ones are thrown out
+Change all your block comments ### ### to /* */
+
+# Currently a bug in Redux https://github.com/michaelficarra/CoffeeScriptRedux/issues/62, will probably be resolved with that
+Remove the parentheses from function definitions with no parameters, () -> simply becomes -> - this is because () is always a call.
+
+
+#################################
 
 #DONE Change all your fat arrows => to wavy arrows ~>
 
