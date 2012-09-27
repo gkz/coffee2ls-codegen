@@ -231,7 +231,7 @@ do (exports = exports ? this.cscodegen = {}) ->
           else "\n#{indent _body}"
         switch ast.className
           when 'Function' then "#{_paramList}->#{_block}"
-          when 'BoundFunction' then "#{_paramList}=>#{_block}"
+          when 'BoundFunction' then "#{_paramList}~>#{_block}"
 
       when 'AssignOp'
         prec = precedence[ast.className]

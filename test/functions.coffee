@@ -7,7 +7,7 @@ suite 'Function Literals', ->
 
   test 'basic function literals', ->
     eq '->', generate new CS.Function [], null
-    eq '=>', generate new CS.BoundFunction [], null
+    eq '~>', generate new CS.BoundFunction [], null
 
   test 'basic parameter lists', ->
     eq '(x) ->', generate new CS.Function [@x], null
@@ -28,7 +28,7 @@ suite 'Function Literals', ->
     ]
 
     eq '''
-      (x, y) =>
+      (x, y) ~>
         x = (y; x)
         x; y
         x + y
