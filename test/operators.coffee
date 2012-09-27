@@ -62,9 +62,9 @@ suite 'Operators', ->
     eq '0; 1', generate new CS.SeqOp @zero, @one
     eq '0 or 1', generate new CS.LogicalOrOp @zero, @one
     eq '0 and 1', generate new CS.LogicalAndOp @zero, @one
-    eq '0 | 1', generate new CS.BitOrOp @zero, @one
-    eq '0 ^ 1', generate new CS.BitXorOp @zero, @one
-    eq '0 & 1', generate new CS.BitAndOp @zero, @one
+    eq '0 .|. 1', generate new CS.BitOrOp @zero, @one
+    eq '0 .^. 1', generate new CS.BitXorOp @zero, @one
+    eq '0 .&. 1', generate new CS.BitAndOp @zero, @one
     eq '0 is 1', generate new CS.EQOp @zero, @one
     eq '0 isnt 1', generate new CS.NEQOp @zero, @one
     eq '0 < 1', generate new CS.LTOp @zero, @one
@@ -74,9 +74,9 @@ suite 'Operators', ->
     eq '0 in 1', generate new CS.InOp @zero, @one
     eq '0 of 1', generate new CS.OfOp @zero, @one
     eq '0 instanceof 1', generate new CS.InstanceofOp @zero, @one
-    eq '0 << 1', generate new CS.LeftShiftOp @zero, @one
-    eq '0 >> 1', generate new CS.SignedRightShiftOp @zero, @one
-    eq '0 >>> 1', generate new CS.UnsignedRightShiftOp @zero, @one
+    eq '0 .<<. 1', generate new CS.LeftShiftOp @zero, @one
+    eq '0 .>>. 1', generate new CS.SignedRightShiftOp @zero, @one
+    eq '0 .>>>. 1', generate new CS.UnsignedRightShiftOp @zero, @one
     eq '0 + 1', generate new CS.PlusOp @zero, @one
     eq '0 - 1', generate new CS.SubtractOp @zero, @one
     eq '0 * 1', generate new CS.MultiplyOp @zero, @one
@@ -106,8 +106,8 @@ suite 'Operators', ->
   test 'compound assignment operators', ->
     eq 'a += 0', generate new CS.CompoundAssignOp CS.PlusOp, @a, @zero
     eq 'a or= 0', generate new CS.CompoundAssignOp CS.LogicalOrOp, @a, @zero
-    eq 'a &= 0', generate new CS.CompoundAssignOp CS.BitAndOp, @a, @zero
-    eq 'a >>>= 0', generate new CS.CompoundAssignOp CS.UnsignedRightShiftOp, @a, @zero
+    eq 'a .&.= 0', generate new CS.CompoundAssignOp CS.BitAndOp, @a, @zero
+    eq 'a .>>>.= 0', generate new CS.CompoundAssignOp CS.UnsignedRightShiftOp, @a, @zero
 
 
   test 'static member access operators', ->

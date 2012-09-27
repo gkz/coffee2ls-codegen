@@ -20,6 +20,7 @@ Change any regular expression literals from /// /// to // //
 
 #DONE Also spreads, eg. a = f ...b need to be prefixed not postfixed
 
+# Currently a bug in Redux https://github.com/michaelficarra/CoffeeScriptRedux/issues/62, will probably be resolved with that
 Remove the parentheses from function definitions with no parameters, () -> simply becomes -> - this is because () is always a call.
 
 Change your constructor functions in your classes from being defined as
@@ -34,7 +35,7 @@ class Item
 
 Change any calls to super from super to super ... - this is because super is a direct reference to the parent function rather than a call itself.
 
-Change any bitwise operators to themselves surrounded by dots. Eg. & is now .&. and >> is now .>>.
+#DONE Change any bitwise operators to themselves surrounded by dots. Eg. & is now .&. and >> is now .>>.
 
 If you are modifying variables in upper scopes at any time, eg.
 

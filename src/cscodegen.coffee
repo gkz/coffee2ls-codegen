@@ -89,10 +89,10 @@ do (exports = exports ? this.cscodegen = {}) ->
     # Binary
     SeqOp: ';'
     LogicalOrOp: 'or', LogicalAndOp: 'and'
-    BitOrOp: '|', BitXorOp: '^', BitAndOp: '&'
+    BitOrOp: '.|.', BitXorOp: '.^.', BitAndOp: '.&.'
     EQOp: 'is', NEQOp: 'isnt', LTOp: '<', LTEOp: '<=', GTOp: '>', GTEOp: '>='
     InOp: 'in', OfOp: 'of', InstanceofOp: 'instanceof'
-    LeftShiftOp: '<<', SignedRightShiftOp: '>>', UnsignedRightShiftOp: '>>>'
+    LeftShiftOp: '.<<.', SignedRightShiftOp: '.>>.', UnsignedRightShiftOp: '.>>>.'
     PlusOp: '+', SubtractOp: '-', MultiplyOp: '*', DivideOp: '/', RemOp: '%'
     # Prefix
     UnaryPlusOp: '+', UnaryNegateOp: '-', LogicalNotOp: 'not ', BitNotOp: '~'
