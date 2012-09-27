@@ -378,6 +378,9 @@ do (exports = exports ? this.cscodegen = {}) ->
         _expr = generate ast.expression, options
         "...#{_expr}"
 
+      when 'JavaScript'
+          throw new Error 'LiveScript does not support JavaScript literals'
+
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
 

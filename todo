@@ -68,8 +68,6 @@ into
 f do
   a: b
 
-Remove any JavaScript code literals, eg. `js code here`. That functionality is no longer availible in LiveScript. Rewrite the code to use LiveScript instead.
-
 
 #DONE Change all your fat arrows => to wavy arrows ~>
 
@@ -80,6 +78,8 @@ Remove any JavaScript code literals, eg. `js code here`. That functionality is n
 #DONE Also spreads, eg. a = f ...b need to be prefixed not postfixed
 
 #DONE Change any bitwise operators to themselves surrounded by dots. Eg. & is now .&. and >> is now .>>.
+
+#DONE Remove any JavaScript code literals, eg. `js code here`. That functionality is no longer availible in LiveScript. Rewrite the code to use LiveScript instead.
 
 # DONE Change any dually spaced property access, eg. x . y to be either spaced on only one side or not at all. A dually spaced dot is now used to compose functions.
 
