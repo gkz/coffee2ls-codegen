@@ -37,11 +37,6 @@ if you wanted to modify x
 
 - and, or and spaced . and ?. close implicit calls, so you will have to change any code involving those where you have depended on CoffeeScript to not close the call. Eg. f a .g b or h c would be f(a.g(b || h(c))) in CoffeeScript and f(a).g(b) || h(c) in LiveScript.
 
-- Change any dos special casing function literals to using let. Eg. in CoffeScript do ($ = jQuery) -> $ change to
-
-let $ = jQuery
-  $
-
 # Redux doesn't deal with comments yet - block ones are thrown out
 Change all your block comments ### ### to /* */
 
@@ -68,6 +63,10 @@ Remove the parentheses from function definitions with no parameters, () -> simpl
 #into
 #f do
 #  a: b
+
+#DONE - Change any dos special casing function literals to using let. Eg. in CoffeScript do ($ = jQuery) -> $ change to
+#let $ = jQuery
+#  $
 
 #DONE Change any number literals starting with a dot, eg. .5 to start with a zero 0.5
 

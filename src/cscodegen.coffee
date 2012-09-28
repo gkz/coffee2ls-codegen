@@ -96,7 +96,7 @@ do (exports = exports ? this.cscodegen = {}) ->
     PlusOp: '+', SubtractOp: '-', MultiplyOp: '*', DivideOp: '/', RemOp: '%'
     # Prefix
     UnaryPlusOp: '+', UnaryNegateOp: '-', LogicalNotOp: 'not ', BitNotOp: '~'
-    DoOp: 'do ', NewOp: 'new ', TypeofOp: 'typeof '
+    NewOp: 'new ', TypeofOp: 'typeof '
     PreIncrementOp: '++', PreDecrementOp: '--'
     # Postfix
     UnaryExistsOp: '?'
@@ -293,7 +293,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         _right = generate ast.right, options
         "#{_left} #{_op} #{_right}"
 
-      when 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'DoOp', 'TypeofOp', 'PreIncrementOp', 'PreDecrementOp', 'Spread'
+      when 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'TypeofOp', 'PreIncrementOp', 'PreDecrementOp', 'Spread'
         _op = operators[ast.className]
         prec = precedence[ast.className]
         if ast.className is 'LogicalNotOp'
@@ -408,6 +408,30 @@ do (exports = exports ? this.cscodegen = {}) ->
         _flags += flag for flag, state of ast.flags when state
 
         "#{_symbol}#{_exprs}#{_symbol}#{_flags}"
+
+      when 'DoOp'
+        exp = ast.expression
+        if exp.className is 'Function' and ((exp.body? and exp.body.className isnt 'Undefined') or exp.parameters.length)
+          _op = 'let '
+          parameters = (generate p, options for p in exp.parameters)
+          options.precedence = 0
+          if exp.body? and exp.body.className isnt 'Undefined'
+            _body = generate exp.body, options
+          else
+            _body = 'void'
+          _paramList = if parameters.length > 0 then "#{parameters.join ', '}" else ''
+          "#{_op}#{_paramList}\n#{indent _body}"
+        else
+          _op = 'do '
+          prec = precedence[ast.className]
+          needsParens = prec < options.precedence
+          options = clone options,
+            ancestors: [ast, options.ancestors...]
+            precedence: prec
+          "#{_op}#{generate ast.expression, options}"
+
+      when 'DefaultParam'
+        "#{generate ast.param, options} = #{generate ast.default, options}"
 
       when 'JavaScript'
           throw new Error 'LiveScript does not support JavaScript literals'

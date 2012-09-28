@@ -14,3 +14,12 @@ suite 'Function Application', ->
           (new CS.ObjectInitialiserMember @f, @a)
         ]
       ]
+
+  test 'do/let op', ->
+    eq 'let a = b\n  b', generate new CS.DoOp new CS.Function [
+        new CS.DefaultParam @a, @b
+      ], new CS.Block [@b]
+    eq 'let a\n  void', generate new CS.DoOp new CS.Function [@a]
+    eq 'do ->', generate new CS.DoOp new CS.Function []
+    eq 'do a', generate new CS.DoOp @a
+
