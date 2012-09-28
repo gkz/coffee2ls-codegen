@@ -181,7 +181,7 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'Null' then 'null'
       when 'This' then 'this'
-      when 'Undefined' then 'undefined'
+      when 'Undefined' then 'void'
 
       when 'Int'
         absNum = if ast.data < 0 then -ast.data else ast.data
