@@ -16,3 +16,6 @@ suite 'String Literals', ->
     eq "'\\r'", generate new CS.String '\r'
     eq "'\\\\'", generate new CS.String '\\'
     eq "'\\u0001'", generate new CS.String '\u0001'
+
+  test 'strings, whitespace, indentation', ->
+    eq "'hello\\n       there'",  generate new CS.String 'hello\n       there'
