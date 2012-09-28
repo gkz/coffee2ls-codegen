@@ -62,8 +62,8 @@ suite 'Operators', ->
 
   test 'binary operators', ->
     eq '0; 1', generate new CS.SeqOp @zero, @one
-    eq '0 or 1', generate new CS.LogicalOrOp @zero, @one
-    eq '0 and 1', generate new CS.LogicalAndOp @zero, @one
+    eq '0 || 1', generate new CS.LogicalOrOp @zero, @one
+    eq '0 && 1', generate new CS.LogicalAndOp @zero, @one
     eq '0 .|. 1', generate new CS.BitOrOp @zero, @one
     eq '0 .^. 1', generate new CS.BitXorOp @zero, @one
     eq '0 .&. 1', generate new CS.BitAndOp @zero, @one
@@ -110,7 +110,7 @@ suite 'Operators', ->
 
   test 'compound assignment operators', ->
     eq 'a += 0', generate new CS.CompoundAssignOp CS.PlusOp, @a, @zero
-    eq 'a or= 0', generate new CS.CompoundAssignOp CS.LogicalOrOp, @a, @zero
+    eq 'a ||= 0', generate new CS.CompoundAssignOp CS.LogicalOrOp, @a, @zero
     eq 'a .&.= 0', generate new CS.CompoundAssignOp CS.BitAndOp, @a, @zero
     eq 'a .>>>.= 0', generate new CS.CompoundAssignOp CS.UnsignedRightShiftOp, @a, @zero
 

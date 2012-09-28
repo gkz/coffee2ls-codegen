@@ -88,7 +88,7 @@ do (exports = exports ? this.cscodegen = {}) ->
   operators =
     # Binary
     SeqOp: ';'
-    LogicalOrOp: 'or', LogicalAndOp: 'and'
+    LogicalOrOp: '||', LogicalAndOp: '&&'
     BitOrOp: '.|.', BitXorOp: '.^.', BitAndOp: '.&.'
     EQOp: 'is', NEQOp: 'isnt', LTOp: '<', LTEOp: '<=', GTOp: '>', GTEOp: '>='
     InOp: 'in', OfOp: 'of', InstanceofOp: 'instanceof'

@@ -23,3 +23,8 @@ suite 'Function Application', ->
     eq 'do ->', generate new CS.DoOp new CS.Function []
     eq 'do a', generate new CS.DoOp @a
 
+  test 'access on implicit call', ->
+    eq 'f a.b', generate new CS.FunctionApplication @f, [
+        new CS.MemberAccessOp @a, 'b'
+      ]
+

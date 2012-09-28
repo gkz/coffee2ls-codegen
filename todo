@@ -35,8 +35,6 @@ if you wanted to modify x
 
 - If you are using nested list comprehensions (eg. (x + y for x in [1, 2] for y in [3, 4]), you will need to change how you handle the result as instead of being a lists within a list as in CoffeScript (the result of the example would be [[4,5],[5,6]]), the result is flattened (the result of the example in LiveScript would be [4,5,5,6])
 
-- and, or and spaced . and ?. close implicit calls, so you will have to change any code involving those where you have depended on CoffeeScript to not close the call. Eg. f a .g b or h c would be f(a.g(b || h(c))) in CoffeeScript and f(a).g(b) || h(c) in LiveScript.
-
 # Redux doesn't deal with comments yet - block ones are thrown out
 Change all your block comments ### ### to /* */
 
@@ -63,6 +61,8 @@ Remove the parentheses from function definitions with no parameters, () -> simpl
 #into
 #f do
 #  a: b
+
+#DONE - and, or and spaced . and ?. close implicit calls, so you will have to change any code involving those where you have depended on CoffeeScript to not close the call. Eg. f a .g b or h c would be f(a.g(b || h(c))) in CoffeeScript and f(a).g(b) || h(c) in LiveScript.
 
 #DONE - Change any dos special casing function literals to using let. Eg. in CoffeScript do ($ = jQuery) -> $ change to
 #let $ = jQuery
