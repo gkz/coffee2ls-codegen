@@ -116,6 +116,8 @@ suite 'Operators', ->
     eq 'a .&.= 0', generate new CS.CompoundAssignOp CS.BitAndOp, @a, @zero
     eq 'a .>>>.= 0', generate new CS.CompoundAssignOp CS.UnsignedRightShiftOp, @a, @zero
 
+  test 'chained comparison operators', ->
+    eq 'a < b < c', generate new CS.ChainedComparisonOp new CS.LTOp (new CS.LTOp @a, @b), @c
 
   test 'static member access operators', ->
     eq 'a.b', generate new CS.MemberAccessOp @a, 'b'

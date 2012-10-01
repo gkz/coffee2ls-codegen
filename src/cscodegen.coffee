@@ -298,6 +298,9 @@ do (exports = exports ? this.cscodegen = {}) ->
         _right = generate ast.right, options
         "#{_left} #{_op} #{_right}"
 
+      when 'ChainedComparisonOp'
+        generate ast.expression, options
+
       when 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'TypeofOp', 'PreIncrementOp', 'PreDecrementOp', 'Spread'
         _op = operators[ast.className]
         prec = precedence[ast.className]

@@ -13,8 +13,6 @@
       Throw: [['expression']] # :: Exprs -> Throw
     ]
 
-    ChainedComparisonOp: [['expression']] # :: ComparisonOps -> ChainedComparisonOp
-
     Super: [['arguments']] # :: [Arguments] -> Super
 
     Try: [['body', 'catchAssignee', 'catchBody', 'finallyBody']] # :: Exprs -> Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Try
