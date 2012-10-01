@@ -73,7 +73,7 @@ do (exports = exports ? this.cscodegen = {}) ->
     ['LeftShiftOp', 'SignedRightShiftOp', 'UnsignedRightShiftOp'] # Bitwise Shift
     ['PlusOp', 'SubtractOp'] # Additive
     ['MultiplyOp', 'DivideOp', 'RemOp'] # Multiplicative
-    ['ExpOp']
+    ['ExpOp', 'ExtendOp']
     ['UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'DoOp', 'TypeofOp', 'PreIncrementOp', 'PreDecrementOp', 'DeleteOp'] # Unary
     ['UnaryExistsOp', 'ShallowCopyArray', 'PostIncrementOp', 'PostDecrementOp', 'Spread'] # Postfix
     ['NewOp'] # New
@@ -92,7 +92,7 @@ do (exports = exports ? this.cscodegen = {}) ->
     LogicalOrOp: '||', LogicalAndOp: '&&'
     BitOrOp: '.|.', BitXorOp: '.^.', BitAndOp: '.&.'
     EQOp: 'is', NEQOp: 'isnt', LTOp: '<', LTEOp: '<=', GTOp: '>', GTEOp: '>='
-    InOp: 'in', OfOp: 'of', InstanceofOp: 'instanceof'
+    InOp: 'in', OfOp: 'of', InstanceofOp: 'instanceof', ExtendsOp: 'extends'
     LeftShiftOp: '.<<.', SignedRightShiftOp: '.>>.', UnsignedRightShiftOp: '.>>>.'
     PlusOp: '+', SubtractOp: '-', MultiplyOp: '*', DivideOp: '/', RemOp: '%',
     ExpOp: '**'
@@ -284,7 +284,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         _right = generate ast.right, options
         "#{_left}; #{_right}"
 
-      when 'LogicalOrOp', 'LogicalAndOp', 'BitOrOp', 'BitXorOp', 'BitAndOp', 'LeftShiftOp', 'SignedRightShiftOp', 'UnsignedRightShiftOp', 'EQOp', 'NEQOp', 'LTOp', 'LTEOp', 'GTOp', 'GTEOp', 'InOp', 'OfOp', 'InstanceofOp', 'PlusOp', 'SubtractOp', 'MultiplyOp', 'DivideOp', 'RemOp', 'ExistsOp', 'ExpOp'
+      when 'LogicalOrOp', 'LogicalAndOp', 'BitOrOp', 'BitXorOp', 'BitAndOp', 'LeftShiftOp', 'SignedRightShiftOp', 'UnsignedRightShiftOp', 'EQOp', 'NEQOp', 'LTOp', 'LTEOp', 'GTOp', 'GTEOp', 'InOp', 'OfOp', 'InstanceofOp', 'PlusOp', 'SubtractOp', 'MultiplyOp', 'DivideOp', 'RemOp', 'ExistsOp', 'ExpOp', 'ExtendsOp'
         _op = operators[ast.className]
         if ast.className in ['InOp', 'OfOp', 'InstanceofOp'] and parentClassName is 'LogicalNotOp'
           _op = "not #{_op}"

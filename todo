@@ -4,7 +4,6 @@
         ClassProtoAssignOp: null # :: ObjectInitialiserKeys -> Exprs -> ClassProtoAssignOp
         ExistsAssignOp: null # :: Assignables -> Exprs -> ExistsAssignOp
       ]
-      ExtendsOp: null # :: Exprs -> Exprs -> ExtendsOp
     ]
 
     Statements: [
