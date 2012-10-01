@@ -448,6 +448,45 @@ do (exports = exports ? this.cscodegen = {}) ->
         _target = if ast.expression then generate ast.expression, options else ''
         "#{_target}[#{_left} #{_mid} #{_right}]"
 
+      when 'ForIn', 'ForOf'
+        type = if ast.className is 'ForIn' then 'in' else 'of'
+        _own = if ast.isOwn then 'own ' else ''
+
+        _firstAssg = if ast.valAssignee
+            generate ast.valAssignee, options
+          else ''
+
+        _secondAssg = if ast.keyAssignee
+            generate ast.keyAssignee, options
+          else ''
+
+        [_firstAssg, _secondAssg] = [_secondAssg, _firstAssg] if type is 'of'
+        _secondAssg = ", #{_secondAssg}" if _secondAssg
+
+        _target = if type is 'in' and ast.target.className is 'Range'
+          _mid = if ast.target.isInclusive then 'to' else 'til'
+          if ast.target.left.className is 'Int' and ast.target.left.data is 0
+            _rangeLeft = ''
+          else
+            _rangeLeft = "from #{generate ast.target.left, options} "
+          _rangeRight = generate ast.target.right, options
+          "#{_rangeLeft}#{_mid} #{_rangeRight}"
+        else
+          "#{type} #{generate ast.target, options}"
+
+        _step = if not ast.step or ast.step.className is 'Int' and ast.step.data is 1
+            ''
+          else
+            " by #{generate ast.step, options}"
+
+        _filter = if ast.filter
+            " when #{generate ast.filter, options}"
+          else ''
+
+        _body = if ast.body then generate ast.body, options else ''
+
+        "for #{_own}#{_firstAssg}#{_secondAssg} #{_target}#{_step}#{_filter}\n#{indent _body}"
+
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
 

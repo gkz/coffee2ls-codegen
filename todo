@@ -18,8 +18,6 @@
 
     Super: [['arguments']] # :: [Arguments] -> Super
 
-    ForIn: [['valAssignee', 'keyAssignee', 'target', 'step', 'filter', 'body']] # :: Assignable -> Maybe Assignable -> Exprs -> Exprs -> Maybe Exprs -> Maybe Exprs -> ForIn
-    ForOf: [['isOwn', 'keyAssignee', 'valAssignee', 'target', 'filter', 'body']] # :: bool -> Assignable -> Maybe Assignable -> Exprs -> Maybe Exprs -> Maybe Exprs -> ForOf
     Switch: [['expression', 'cases', 'alternate']] # :: Maybe Exprs -> [SwitchCase] -> Maybe Exprs -> Switch
     SwitchCase: [['conditions', 'consequent']] # :: [Exprs] -> Maybe Expr -> SwitchCase
     Try: [['body', 'catchAssignee', 'catchBody', 'finallyBody']] # :: Exprs -> Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Try
@@ -34,8 +32,6 @@
 
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
-
-- Similarly, change any range syntax in for loops from for i in [x..y] to for i from x to y and change for i in [x...y] to for i from x til y
 
 - Change any list comprehensions from (x for x in list) to [x for x in list]. Any postfix loops which you do not want returning a list, change to not postfixed, eg. change increase x for x in list to for x in list then increase x.
 
@@ -75,6 +71,8 @@ Remove the parentheses from function definitions with no parameters, () -> simpl
 
 
 #################################
+
+#DONE - Similarly, change any range syntax in for loops from for i in [x..y] to for i from x to y and change for i in [x...y] to for i from x til y
 
 #DONE - Change any regular expression literals from /// /// to // //
 
