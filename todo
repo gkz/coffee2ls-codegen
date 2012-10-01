@@ -32,9 +32,6 @@
     Identifiers: [
       GenSym: null # :: string -> string -> GenSym
     ]
-    Primitives: [
-      Bool: null # :: bool -> Bool
-    ]
 
     Slice: [['expression', 'isInclusive', 'left', 'right']] # :: Exprs -> bool -> Maybe Exprs -> Maybe Exprs -> Slice
 

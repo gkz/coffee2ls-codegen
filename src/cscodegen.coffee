@@ -199,6 +199,9 @@ do (exports = exports ? this.cscodegen = {}) ->
       when 'String'
         "'#{formatStringData ast.data}'"
 
+      when 'Bool'
+        "#{ast.data.toString()}"
+
       when 'ArrayInitialiser'
         options = clone options,
           ancestors: [ast, options.ancestors...]
