@@ -1,3 +1,48 @@
+# NODES
+    BinOps: [
+      AssignOps: [
+        ClassProtoAssignOp: null # :: ObjectInitialiserKeys -> Exprs -> ClassProtoAssignOp
+        ExistsAssignOp: null # :: Assignables -> Exprs -> ExistsAssignOp
+      ]
+      # Note: A tree of ConcatOp represents interpolation
+      ExtendsOp: null # :: Exprs -> Exprs -> ExtendsOp
+      MathsOps: [
+        ExpOp: null # :: Exprs -> Exprs -> ExpOp
+      ]
+      Range: [['isInclusive', 'left', 'right']] # :: bool -> Exprs -> Exprs -> Range
+    ]
+
+    Statements: [
+      Break: null # :: Break
+      Continue: null # :: Continue
+      Return: [['expression']] # :: Maybe Exprs -> Return
+      Throw: [['expression']] # :: Exprs -> Throw
+    ]
+
+    ChainedComparisonOp: [['expression']] # :: ComparisonOps -> ChainedComparisonOp
+
+    Super: [['arguments']] # :: [Arguments] -> Super
+
+    ForIn: [['valAssignee', 'keyAssignee', 'target', 'step', 'filter', 'body']] # :: Assignable -> Maybe Assignable -> Exprs -> Exprs -> Maybe Exprs -> Maybe Exprs -> ForIn
+    ForOf: [['isOwn', 'keyAssignee', 'valAssignee', 'target', 'filter', 'body']] # :: bool -> Assignable -> Maybe Assignable -> Exprs -> Maybe Exprs -> Maybe Exprs -> ForOf
+    Switch: [['expression', 'cases', 'alternate']] # :: Maybe Exprs -> [SwitchCase] -> Maybe Exprs -> Switch
+    SwitchCase: [['conditions', 'consequent']] # :: [Exprs] -> Maybe Expr -> SwitchCase
+    Try: [['body', 'catchAssignee', 'catchBody', 'finallyBody']] # :: Exprs -> Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Try
+    While: [['condition', 'body']] # :: Exprs -> Maybe Exprs -> While
+
+    Class: [['nameAssignee', 'parent', 'ctor', 'body', 'boundMembers']] # :: Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Maybe Exprs -> [ClassProtoAssignOp] -> Class
+    Constructor: [['expression']] # :: Exprs -> Constructor
+    Identifiers: [
+      GenSym: null # :: string -> string -> GenSym
+    ]
+    Primitives: [
+      Bool: null # :: bool -> Bool
+    ]
+
+    Slice: [['expression', 'isInclusive', 'left', 'right']] # :: Exprs -> bool -> Maybe Exprs -> Maybe Exprs -> Slice
+
+
+
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
 
