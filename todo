@@ -31,9 +31,6 @@
       GenSym: null # :: string -> string -> GenSym
     ]
 
-    Slice: [['expression', 'isInclusive', 'left', 'right']] # :: Exprs -> bool -> Maybe Exprs -> Maybe Exprs -> Slice
-
-
 
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====

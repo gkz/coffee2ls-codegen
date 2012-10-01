@@ -441,11 +441,12 @@ do (exports = exports ? this.cscodegen = {}) ->
       when 'JavaScript'
           throw new Error 'LiveScript does not support JavaScript literals'
 
-      when 'Range'
+      when 'Range', 'Slice'
         _mid = if ast.isInclusive then 'to' else 'til'
-        _left = generate ast.left, options
-        _right = generate ast.right, options
-        "[#{_left} #{_mid} #{_right}]"
+        _left = if ast.left then generate ast.left, options else ''
+        _right = if ast.right then generate ast.right, options else ''
+        _target = if ast.expression then generate ast.expression, options else ''
+        "#{_target}[#{_left} #{_mid} #{_right}]"
 
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
