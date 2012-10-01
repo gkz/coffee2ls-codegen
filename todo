@@ -7,8 +7,6 @@
 
     Super: [['arguments']] # :: [Arguments] -> Super
 
-    Try: [['body', 'catchAssignee', 'catchBody', 'finallyBody']] # :: Exprs -> Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Try
-
     Class: [['nameAssignee', 'parent', 'ctor', 'body', 'boundMembers']] # :: Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Maybe Exprs -> [ClassProtoAssignOp] -> Class
     Constructor: [['expression']] # :: Exprs -> Constructor
     Identifiers: [

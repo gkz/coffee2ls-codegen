@@ -528,6 +528,25 @@ do (exports = exports ? this.cscodegen = {}) ->
       when 'Throw'
         "throw #{generate ast.expression, options}"
 
+      when 'Try'
+        _body = if ast.body then generate ast.body, options else 'void'
+        _catchAssg = if ast.catchAssignee
+            " #{generate ast.catchAssignee}"
+          else ''
+
+        _catchBody = if ast.catchBody
+            "\n#{indent generate ast.catchBody, options}"
+          else ''
+        finallyBody = if ast.finallyBody
+            generate ast.finallyBody, options
+          else ''
+        _finally = if finallyBody
+            "\nfinally\n#{indent finallyBody}"
+          else ''
+
+
+        "try\n#{indent _body}\ncatch#{_catchAssg}#{_catchBody}#{_finally}"
+
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
 
