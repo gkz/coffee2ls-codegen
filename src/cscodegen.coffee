@@ -544,7 +544,6 @@ do (exports = exports ? this.cscodegen = {}) ->
             "\nfinally\n#{indent finallyBody}"
           else ''
 
-
         "try\n#{indent _body}\ncatch#{_catchAssg}#{_catchBody}#{_finally}"
 
       else
