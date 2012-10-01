@@ -84,6 +84,7 @@ suite 'Operators', ->
     eq '0 * 1', generate new CS.MultiplyOp @zero, @one
     eq '0 / 1', generate new CS.DivideOp @zero, @one
     eq '0 % 1', generate new CS.RemOp @zero, @one
+    eq '0 ** 1', generate new CS.ExpOp @zero, @one
     eq 'a = 0', generate new CS.AssignOp @a, @zero
 
   test 'non-spaced subtract is spaced', ->

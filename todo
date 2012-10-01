@@ -6,9 +6,6 @@
       ]
       # Note: A tree of ConcatOp represents interpolation
       ExtendsOp: null # :: Exprs -> Exprs -> ExtendsOp
-      MathsOps: [
-        ExpOp: null # :: Exprs -> Exprs -> ExpOp
-      ]
       Range: [['isInclusive', 'left', 'right']] # :: bool -> Exprs -> Exprs -> Range
     ]
 
