@@ -21,7 +21,6 @@
     Switch: [['expression', 'cases', 'alternate']] # :: Maybe Exprs -> [SwitchCase] -> Maybe Exprs -> Switch
     SwitchCase: [['conditions', 'consequent']] # :: [Exprs] -> Maybe Expr -> SwitchCase
     Try: [['body', 'catchAssignee', 'catchBody', 'finallyBody']] # :: Exprs -> Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Try
-    While: [['condition', 'body']] # :: Exprs -> Maybe Exprs -> While
 
     Class: [['nameAssignee', 'parent', 'ctor', 'body', 'boundMembers']] # :: Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Maybe Exprs -> [ClassProtoAssignOp] -> Class
     Constructor: [['expression']] # :: Exprs -> Constructor
@@ -33,7 +32,7 @@
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
 
-- Change any list comprehensions from (x for x in list) to [x for x in list]. Any postfix loops which you do not want returning a list, change to not postfixed, eg. change increase x for x in list to for x in list then increase x.
+- Change any list comprehensions from (x for x in list) to [x for x in list].
 
 - Change your constructor functions in your classes from being defined as
 

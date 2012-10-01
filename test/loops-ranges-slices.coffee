@@ -4,6 +4,9 @@ suite 'Loop, Ranges, and Slices', ->
     @zero = new CS.Int 0
     @one = new CS.Int 1
     @two = new CS.Int 2
+
+    @true = new CS.Bool true
+
     @x = new CS.Identifier 'x'
     @y = new CS.Identifier 'y'
     @xs = new CS.Identifier 'xs'
@@ -23,10 +26,10 @@ suite 'Loop, Ranges, and Slices', ->
       generate new CS.ForIn @x, @y, @xs, @one, null, @x
     eq 'for x in xs by 2\n  x',
       generate new CS.ForIn @x, null, @xs, @two, null, @x
-    eq 'for x in xs when 1\n  x',
-      generate new CS.ForIn @x, null, @xs, @one, @one, @x
-    eq 'for x, y in xs by 2 when 1\n  x',
-      generate new CS.ForIn @x, @y, @xs, @two, @one, @x
+    eq 'for x in xs when true\n  x',
+      generate new CS.ForIn @x, null, @xs, @one, @true, @x
+    eq 'for x, y in xs by 2 when true\n  x',
+      generate new CS.ForIn @x, @y, @xs, @two, @true, @x
 
   test 'for in loop with range target', ->
     eq 'for x from 1 to 2\n  x',
@@ -49,7 +52,16 @@ suite 'Loop, Ranges, and Slices', ->
       generate new CS.ForOf true, @x, null, @xs, null, @x
     eq 'for x, y of xs\n  x',
       generate new CS.ForOf false, @x, @y, @xs, null, @x
-    eq 'for x of xs when 1\n  x',
-      generate new CS.ForOf false, @x, null, @xs, @one, @x
-    eq 'for own x, y of xs when 1\n  x',
-      generate new CS.ForOf true, @x, @y, @xs, @one, @x
+    eq 'for x of xs when true\n  x',
+      generate new CS.ForOf false, @x, null, @xs, @true, @x
+    eq 'for own x, y of xs when true\n  x',
+      generate new CS.ForOf true, @x, @y, @xs, @true, @x
+
+  test 'for loops with different bodies', ->
+    eq 'for x in xs\n  void',
+      generate new CS.ForIn @x, null, @xs, @one, null
+    eq 'for x in xs\n  x\n  y',
+      generate new CS.ForIn @x, null, @xs, @one, null, new CS.Block [@x, @y]
+
+  test 'while loop', ->
+    eq 'while true\n  x', generate new CS.While @true, @x

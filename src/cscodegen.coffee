@@ -483,9 +483,15 @@ do (exports = exports ? this.cscodegen = {}) ->
             " when #{generate ast.filter, options}"
           else ''
 
-        _body = if ast.body then generate ast.body, options else ''
+        _body = if ast.body then generate ast.body, options else 'void'
 
         "for #{_own}#{_firstAssg}#{_secondAssg} #{_target}#{_step}#{_filter}\n#{indent _body}"
+
+      when 'While'
+        _condition = generate ast.condition, options
+        _body = if ast.body then generate ast.body, options else 'void'
+
+        "while #{_condition}\n#{indent _body}"
 
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
