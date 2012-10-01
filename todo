@@ -4,9 +4,7 @@
         ClassProtoAssignOp: null # :: ObjectInitialiserKeys -> Exprs -> ClassProtoAssignOp
         ExistsAssignOp: null # :: Assignables -> Exprs -> ExistsAssignOp
       ]
-      # Note: A tree of ConcatOp represents interpolation
       ExtendsOp: null # :: Exprs -> Exprs -> ExtendsOp
-      Range: [['isInclusive', 'left', 'right']] # :: bool -> Exprs -> Exprs -> Range
     ]
 
     Statements: [
@@ -39,8 +37,6 @@
 
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
-
-- Change any range syntax creating lists from [x..y] to [x to y] and change [x...y] to [x til y]
 
 - Similarly, change any range syntax in for loops from for i in [x..y] to for i from x to y and change for i in [x...y] to for i from x til y
 
