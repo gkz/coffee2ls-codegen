@@ -493,6 +493,24 @@ do (exports = exports ? this.cscodegen = {}) ->
 
         "while #{_condition}\n#{indent _body}"
 
+      when 'Switch'
+        _expression = if ast.expression
+            " #{generate ast.expression, options}"
+          else ''
+
+        output = "switch#{_expression}\n"
+        output += (generate c, options for c in ast.cases).join '\n'
+        if ast.alternate
+          output += "\ndefault\n#{indent generate ast.alternate, options}"
+        output
+
+      when 'SwitchCase'
+        _conditions = if ast.conditions.length
+            (generate c, options for c in ast.conditions).join ', '
+          else
+            generate ast.conditions, options
+        "case #{_conditions}\n#{indent generate ast.consequent, options}"
+
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
 
