@@ -2,7 +2,6 @@
     BinOps: [
       AssignOps: [
         ClassProtoAssignOp: null # :: ObjectInitialiserKeys -> Exprs -> ClassProtoAssignOp
-        ExistsAssignOp: null # :: Assignables -> Exprs -> ExistsAssignOp
       ]
     ]
 

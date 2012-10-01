@@ -95,7 +95,8 @@ do (exports = exports ? this.cscodegen = {}) ->
     InOp: 'in', OfOp: 'of', InstanceofOp: 'instanceof', ExtendsOp: 'extends'
     LeftShiftOp: '.<<.', SignedRightShiftOp: '.>>.', UnsignedRightShiftOp: '.>>>.'
     PlusOp: '+', SubtractOp: '-', MultiplyOp: '*', DivideOp: '/', RemOp: '%',
-    ExpOp: '**'
+    ExpOp: '**',
+    AssignOp: '=', ExistsAssignOp: '?='
     # Prefix
     UnaryPlusOp: '+', UnaryNegateOp: '-', LogicalNotOp: 'not ', BitNotOp: '~'
     NewOp: 'new ', TypeofOp: 'typeof '
@@ -253,7 +254,8 @@ do (exports = exports ? this.cscodegen = {}) ->
           when 'Function' then "#{_paramList}->#{_block}"
           when 'BoundFunction' then "#{_paramList}~>#{_block}"
 
-      when 'AssignOp'
+      when 'AssignOp', 'ExistsAssignOp'
+        _op = operators[ast.className]
         prec = precedence[ast.className]
         needsParens = prec < options.precedence
         options = clone options,
@@ -261,7 +263,7 @@ do (exports = exports ? this.cscodegen = {}) ->
           precedence: prec
         _assignee = generate ast.assignee, options
         _expr = generate ast.expression, options
-        "#{_assignee} = #{_expr}"
+        "#{_assignee} #{_op} #{_expr}"
 
       when 'CompoundAssignOp'
         prec = precedence[ast.className]
