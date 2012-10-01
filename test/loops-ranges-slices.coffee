@@ -65,3 +65,9 @@ suite 'Loop, Ranges, and Slices', ->
 
   test 'while loop', ->
     eq 'while true\n  x', generate new CS.While @true, @x
+
+  test 'break', ->
+    eq 'break', generate new CS.Break()
+
+  test 'continue', ->
+    eq 'continue', generate new CS.Continue()

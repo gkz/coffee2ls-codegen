@@ -42,3 +42,6 @@ suite 'Function Literals', ->
     eq '(...x) ->', generate new CS.Function [new CS.Rest @x], null
     eq '(y, ...x) ->', generate new CS.Function [@y, new CS.Rest @x], null
     eq '(...x, y) ->', generate new CS.Function [(new CS.Rest @x), @y], null
+
+  test 'explicit returns', ->
+    eq 'return x', generate new CS.Return @x

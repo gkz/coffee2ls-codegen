@@ -5,13 +5,6 @@
       ]
     ]
 
-    Statements: [
-      Break: null # :: Break
-      Continue: null # :: Continue
-      Return: [['expression']] # :: Maybe Exprs -> Return
-      Throw: [['expression']] # :: Exprs -> Throw
-    ]
-
     Super: [['arguments']] # :: [Arguments] -> Super
 
     Try: [['body', 'catchAssignee', 'catchBody', 'finallyBody']] # :: Exprs -> Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Try

@@ -516,6 +516,18 @@ do (exports = exports ? this.cscodegen = {}) ->
             generate ast.conditions, options
         "case #{_conditions}\n#{indent generate ast.consequent, options}"
 
+      when 'Return'
+        "return #{generate ast.expression, options}"
+
+      when 'Break'
+        'break'
+
+      when 'Continue'
+        'continue'
+
+      when 'Throw'
+        "throw #{generate ast.expression, options}"
+
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
 
