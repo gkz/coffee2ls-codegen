@@ -403,10 +403,12 @@ do (exports = exports ? this.cscodegen = {}) ->
         "\"#{_left}#{_right}\""
 
       when 'Rest'
+        options.ancestors = [ast, options.ancestors...]
         _expr = generate ast.expression, options
         "...#{_expr}"
 
       when 'RegExp', 'HeregExp'
+        options.ancestors = [ast, options.ancestors...]
         if ast.className is 'RegExp'
           _exprs = ast.data
           _symbol = '/'
@@ -447,6 +449,7 @@ do (exports = exports ? this.cscodegen = {}) ->
           throw new Error 'LiveScript does not support JavaScript literals'
 
       when 'Range', 'Slice'
+        options.ancestors = [ast, options.ancestors...]
         _mid = if ast.isInclusive then 'to' else 'til'
         _left = if ast.left then generate ast.left, options else ''
         _right = if ast.right then generate ast.right, options else ''
@@ -454,6 +457,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         "#{_target}[#{_left} #{_mid} #{_right}]"
 
       when 'ForIn', 'ForOf'
+        options.ancestors = [ast, options.ancestors...]
         type = if ast.className is 'ForIn' then 'in' else 'of'
         _own = if ast.isOwn then 'own ' else ''
 
@@ -488,17 +492,28 @@ do (exports = exports ? this.cscodegen = {}) ->
             " when #{generate ast.filter, options}"
           else ''
 
-        _body = if ast.body then generate ast.body, options else 'void'
+        comprehension = false
+        _body = if ast.body
+            comprehension = ast.body.statements.length is 1 and usedAsExpression
+            generate ast.body, options
+          else'void'
 
-        "for #{_own}#{_firstAssg}#{_secondAssg} #{_target}#{_step}#{_filter}\n#{indent _body}"
+        _mainPart = "for #{_own}#{_firstAssg}#{_secondAssg} #{_target}#{_step}#{_filter}"
+
+        if comprehension
+          "[#{_body} #{_mainPart}]"
+        else
+          "#{_mainPart}\n#{indent _body}"
 
       when 'While'
+        options.ancestors = [ast, options.ancestors...]
         _condition = generate ast.condition, options
         _body = if ast.body then generate ast.body, options else 'void'
 
         "while #{_condition}\n#{indent _body}"
 
       when 'Switch'
+        options.ancestors = [ast, options.ancestors...]
         _expression = if ast.expression
             " #{generate ast.expression, options}"
           else ''
@@ -510,6 +525,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         output
 
       when 'SwitchCase'
+        options.ancestors = [ast, options.ancestors...]
         _conditions = if ast.conditions.length
             (generate c, options for c in ast.conditions).join ', '
           else
@@ -529,6 +545,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         "throw #{generate ast.expression, options}"
 
       when 'Try'
+        options.ancestors = [ast, options.ancestors...]
         _body = if ast.body then generate ast.body, options else 'void'
         _catchAssg = if ast.catchAssignee
             " #{generate ast.catchAssignee}"
@@ -547,6 +564,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         "try\n#{indent _body}\ncatch#{_catchAssg}#{_catchBody}#{_finally}"
 
       when 'Super'
+        options.ancestors = [ast, options.ancestors...]
         if ast.arguments
           generate new CS.FunctionApplication (new CS.Identifier 'super'),
             ast.arguments
@@ -554,6 +572,7 @@ do (exports = exports ? this.cscodegen = {}) ->
           'super ...'
 
       when 'Class'
+        options.ancestors = [ast, options.ancestors...]
         _nameAssg = if ast.nameAssignee
             " #{generate ast.nameAssignee, options}"
           else ''
@@ -572,6 +591,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         generate ast.expression, options
 
       when 'ClassProtoAssignOp'
+        options.ancestors = [ast, options.ancestors...]
         _assignee = generate ast.assignee, options
         _expression = generate ast.expression, options
         "#{_assignee}: #{_expression}"

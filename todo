@@ -7,8 +7,6 @@
 # Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
 
-- Change any list comprehensions from (x for x in list) to [x for x in list].
-
 - If you are using nested list comprehensions (eg. (x + y for x in [1, 2] for y in [3, 4]), you will need to change how you handle the result as instead of being a lists within a list as in CoffeScript (the result of the example would be [[4,5],[5,6]]), the result is flattened (the result of the example in LiveScript would be [4,5,5,6])
 
 # This will have to be done with a single preprocessing pass, outside of lscodegen
@@ -39,6 +37,8 @@ Remove the parentheses from function definitions with no parameters, () -> simpl
 #DONE - Similarly, change any range syntax in for loops from for i in [x..y] to for i from x to y and change for i in [x...y] to for i from x til y
 
 #DONE - change postfix loops to regular loops
+
+#DONE - Change any list comprehensions from (x for x in list) to [x for x in list].
 
 #DONE - Change any regular expression literals from /// /// to // //
 
