@@ -10,6 +10,7 @@ suite 'Loop, Ranges, and Slices', ->
     @x = new CS.Identifier 'x'
     @y = new CS.Identifier 'y'
     @xs = new CS.Identifier 'xs'
+    @ys = new CS.Identifier 'ys'
 
     @blk = new CS.Block [@x]
 
@@ -75,6 +76,18 @@ suite 'Loop, Ranges, and Slices', ->
     eq 'x = [x for x of xs]',
       generate new CS.AssignOp @x,
         (new CS.ForOf false, @x, null, @xs, null, @blk)
+
+  test 'nested loops when used as an expresison', ->
+    eq '',
+      generate new CS.AssignOp @z,
+        (new CS.ForIn @x, null, @xs, @one, null, new CS.Block [
+          new CS.ForIn @y, null, @ys, @one, null, new CS.Block [
+            new CS.PlusOp @x, @y
+          ]
+        ])
+
+  test 'nested loops', ->
+
 
   test 'while loop', ->
     eq 'while true\n  x', generate new CS.While @true, @blk

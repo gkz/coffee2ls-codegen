@@ -494,7 +494,7 @@ do (exports = exports ? this.cscodegen = {}) ->
 
         comprehension = false
         _body = if ast.body
-            comprehension = ast.body.statements.length is 1 and usedAsExpression
+            comprehension = ast.body.statements.length is 1 and usedAsExpression and 'For' isnt ast.body.statements[0].className.slice 0, 3
             generate ast.body, options
           else'void'
 
