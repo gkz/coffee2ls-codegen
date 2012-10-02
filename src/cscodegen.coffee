@@ -546,6 +546,36 @@ do (exports = exports ? this.cscodegen = {}) ->
 
         "try\n#{indent _body}\ncatch#{_catchAssg}#{_catchBody}#{_finally}"
 
+      when 'Super'
+        if ast.arguments
+          generate new CS.FunctionApplication (new CS.Identifier 'super'),
+            ast.arguments
+        else
+          'super ...'
+
+      when 'Class'
+        _nameAssg = if ast.nameAssignee
+            " #{generate ast.nameAssignee, options}"
+          else ''
+
+        _parent = if ast.parent
+            " extends #{generate ast.parent, options}"
+          else ''
+
+        _body = if ast.body
+            "\n#{indent generate ast.body, options}"
+          else ''
+
+        "class#{_nameAssg}#{_parent}#{_body}"
+
+      when 'Constructor'
+        generate ast.expression, options
+
+      when 'ClassProtoAssignOp'
+        _assignee = generate ast.assignee, options
+        _expression = generate ast.expression, options
+        "#{_assignee}: #{_expression}"
+
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
 

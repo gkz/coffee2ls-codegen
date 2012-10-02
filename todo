@@ -1,14 +1,4 @@
 # NODES
-    BinOps: [
-      AssignOps: [
-        ClassProtoAssignOp: null # :: ObjectInitialiserKeys -> Exprs -> ClassProtoAssignOp
-      ]
-    ]
-
-    Super: [['arguments']] # :: [Arguments] -> Super
-
-    Class: [['nameAssignee', 'parent', 'ctor', 'body', 'boundMembers']] # :: Maybe Assignable -> Maybe Exprs -> Maybe Exprs -> Maybe Exprs -> [ClassProtoAssignOp] -> Class
-    Constructor: [['expression']] # :: Exprs -> Constructor
     Identifiers: [
       GenSym: null # :: string -> string -> GenSym
     ]
@@ -18,18 +8,6 @@
 ====
 
 - Change any list comprehensions from (x for x in list) to [x for x in list].
-
-- Change your constructor functions in your classes from being defined as
-
-class Item
-  constructor: ->
-
-to simply being functions at the top level of your class body, eg.
-
-class Item
-  ->
-
-- Change any calls to super from super to super ... - this is because super is a direct reference to the parent function rather than a call itself.
 
 - If you are using nested list comprehensions (eg. (x + y for x in [1, 2] for y in [3, 4]), you will need to change how you handle the result as instead of being a lists within a list as in CoffeScript (the result of the example would be [[4,5],[5,6]]), the result is flattened (the result of the example in LiveScript would be [4,5,5,6])
 
@@ -69,6 +47,17 @@ Remove the parentheses from function definitions with no parameters, () -> simpl
 #DONE delete -> delete!
 
 #DONE Change all your fat arrows => to wavy arrows ~>
+
+#DONE - Change any calls to super from super to super ... - this is because super is a direct reference to the parent function rather than a call itself.
+
+#DONE- Change your constructor functions in your classes from being defined as
+#class Item
+#  constructor: ->
+#
+#to simply being functions at the top level of your class body, eg.
+#
+#class Item
+#  ->
 
 #DONE - If you have any multiline strings non triple quoted strings (using "string" or 'string'), eg.  #text = "hi\n      there"
 #you will have to change them as in CoffeeScript this would be "hi         there" while LiveScript ignores indentation after newlines so it would be "hi there"
