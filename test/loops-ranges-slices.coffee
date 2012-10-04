@@ -78,7 +78,7 @@ suite 'Loop, Ranges, and Slices', ->
         (new CS.ForOf false, @x, null, @xs, null, @blk)
 
   test 'nested loops when used as an expresison', ->
-    eq '',
+    eq 'z = for x in xs\n  for y in ys\n    x + y',
       generate new CS.AssignOp @z,
         (new CS.ForIn @x, null, @xs, @one, null, new CS.Block [
           new CS.ForIn @y, null, @ys, @one, null, new CS.Block [
@@ -87,7 +87,12 @@ suite 'Loop, Ranges, and Slices', ->
         ])
 
   test 'nested loops', ->
-
+    eq 'for x in xs\n  for y in ys\n    x + y',
+      generate new CS.ForIn @x, null, @xs, @one, null, new CS.Block [
+          new CS.ForIn @y, null, @ys, @one, null, new CS.Block [
+            new CS.PlusOp @x, @y
+          ]
+        ]
 
   test 'while loop', ->
     eq 'while true\n  x', generate new CS.While @true, @blk
