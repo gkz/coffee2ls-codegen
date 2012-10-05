@@ -256,6 +256,7 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'AssignOp', 'ExistsAssignOp'
         _op = operators[ast.className]
+        _op = ':=' if ast.reassign
         prec = precedence[ast.className]
         needsParens = prec < options.precedence
         options = clone options,
@@ -446,7 +447,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         "#{generate ast.param, options} = #{generate ast.default, options}"
 
       when 'JavaScript'
-          throw new Error 'LiveScript does not support JavaScript literals'
+        "``#{ast.data}``"
 
       when 'Range', 'Slice'
         options.ancestors = [ast, options.ancestors...]
