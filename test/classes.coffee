@@ -7,6 +7,7 @@ suite 'Classes', ->
     @A = new CS.Identifier 'A'
     @B = new CS.Identifier 'B'
     @ctor = new CS.Constructor new CS.Function [], @x
+    @this = new CS.This '@'
 
   test 'super', ->
     eq 'super ...', generate new CS.Super()
@@ -29,3 +30,8 @@ suite 'Classes', ->
         new CS.ClassProtoAssignOp @x, @y
       ]
 
+  test 'static members', ->
+    eq 'class A\n  @static = 9',
+      generate new CS.Class @A, null, null, new CS.Block [
+        new CS.AssignOp (new CS.MemberAccessOp @this, 'static'), new CS.Int 9
+      ]
