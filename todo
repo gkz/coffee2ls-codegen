@@ -3,88 +3,10 @@
       GenSym: null # :: string -> string -> GenSym
     ]
 
-
-# Things labelled #DONE are done in a preliminary way, and probably need further, more complex test cases
 ====
-
-# This will have to be done with a single preprocessing pass, outside of lscodegen
-- If you are modifying variables in upper scopes at any time, eg.
-
-x = 10
-do ->
-  x = 5
-
-you must use := instead of just = as that will declare a new (shadowing) variable in LiveScript. Thus, the above code would need to be
-
-x = 10
-do ->
-  x := 5
-
-if you wanted to modify x
-
 
 # Redux doesn't deal with comments yet - block ones are thrown out
 Change all your block comments ### ### to /* */
 
 # Currently a bug in Redux https://github.com/michaelficarra/CoffeeScriptRedux/issues/62, will probably be resolved with that
 Remove the parentheses from function definitions with no parameters, () -> simply becomes -> - this is because () is always a call.
-
-
-#################################
-
-#DONE- If you are using nested list comprehensions (eg. (x + y for x in [1, 2] for y in [3, 4]), you will need to change how you handle the result as instead of being a lists within a list as in CoffeScript (the result of the example would be [[4,5],[5,6]]), the result is flattened (the result of the example in LiveScript would be [4,5,5,6])
-
-#DONE - Similarly, change any range syntax in for loops from for i in [x..y] to for i from x to y and change for i in [x...y] to for i from x til y
-
-#DONE - change postfix loops to regular loops
-
-#DONE - Change any list comprehensions from (x for x in list) to [x for x in list].
-
-#DONE - Change any regular expression literals from /// /// to // //
-
-#DONE - Change the name of any of your variables named it, that, fallthrough, or otherwise. Those are terrible names for variables so you should change them anyway. This technically isn't required in all cases, but will be less confusing if you do so in all cases. it is used as the implicit argument of functions defined with no parameters, eg. reverse = -> it.reverse!. that refers to the value of the condition, for instance that + 2 if (x + 10)/(y - 18), that == (x + 10)/(y-18). fallthrough, if used at the end of a case block makes that block fallthrough to the next case. otherwise, if used directly after case, turns that case into default. Also, xor, match, and where are reserved words
-
-#DONE delete -> delete!
-
-#DONE Change all your fat arrows => to wavy arrows ~>
-
-#DONE - Change any calls to super from super to super ... - this is because super is a direct reference to the parent function rather than a call itself.
-
-#DONE- Change your constructor functions in your classes from being defined as
-#class Item
-#  constructor: ->
-#
-#to simply being functions at the top level of your class body, eg.
-#
-#class Item
-#  ->
-
-#DONE - If you have any multiline strings non triple quoted strings (using "string" or 'string'), eg.  #text = "hi\n      there"
-#you will have to change them as in CoffeeScript this would be "hi         there" while LiveScript ignores indentation after newlines so it would be "hi there"
-
-#DONE - Change any implicit calls against blocks starting with an implicit objects to use do. Eg. change
-#f
-#  a: b
-#into
-#f do
-#  a: b
-
-#DONE - and, or and spaced . and ?. close implicit calls, so you will have to change any code involving those where you have depended on CoffeeScript to not close the call. Eg. f a .g b or h c would be f(a.g(b || h(c))) in CoffeeScript and f(a).g(b) || h(c) in LiveScript.
-
-#DONE - Change any dos special casing function literals to using let. Eg. in CoffeScript do ($ = jQuery) -> $ change to
-#let $ = jQuery
-#  $
-
-#DONE Change any number literals starting with a dot, eg. .5 to start with a zero 0.5
-
-#DONE Change any splats you are using from (args...) -> to be prefixed like (...args) ->
-
-#DONE Also spreads, eg. a = f ...b need to be prefixed not postfixed
-
-#DONE Change any bitwise operators to themselves surrounded by dots. Eg. & is now .&. and >> is now .>>.
-
-#DONE Remove any JavaScript code literals, eg. `js code here`. That functionality is no longer availible in LiveScript. Rewrite the code to use LiveScript instead.
-
-# DONE Change any dually spaced property access, eg. x . y to be either spaced on only one side or not at all. A dually spaced dot is now used to compose functions.
-
-#DONE Change any non spaced identifier subtraction, eg. a-b to spaced a - b. a-1 and 1-b are still fine. This is because a-b is a valid identifier in LiveScript, equivalent to its camel case, aB.
