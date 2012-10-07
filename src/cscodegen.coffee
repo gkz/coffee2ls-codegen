@@ -1,6 +1,6 @@
 do (exports = exports ? this.cscodegen = {}) ->
 
-  TAB = '  '
+  TAB = '    '
   indent = (code) -> ("#{TAB}#{line}" for line in code.split '\n').join '\n'
   parens = (code) -> "(#{code})"
 
