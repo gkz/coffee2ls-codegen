@@ -35,3 +35,10 @@ suite 'Classes', ->
       generate new CS.Class @A, null, null, new CS.Block [
         new CS.AssignOp (new CS.MemberAccessOp @this, 'static'), new CS.Int 9
       ]
+
+  test 'external constructors', ->
+    ctor = new CS.Constructor @f
+    eq 'class A\n  constructor$$: f',
+      generate new CS.Class @A, null, ctor, new CS.Block [
+        ctor
+      ]

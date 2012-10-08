@@ -589,7 +589,11 @@ do (exports = exports ? this.cscodegen = {}) ->
         "class#{_nameAssg}#{_parent}#{_body}"
 
       when 'Constructor'
-        generate ast.expression, options
+        _body = generate ast.expression, options
+        if ast.expression.className is 'Function'
+          _body
+        else
+          "constructor$$: #{_body}"
 
       when 'ClassProtoAssignOp'
         options.ancestors = [ast, options.ancestors...]
