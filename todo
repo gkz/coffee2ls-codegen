@@ -7,6 +7,3 @@
 
 # Redux doesn't deal with comments yet - block ones are thrown out
 Change all your block comments ### ### to /* */
-
-# Currently a bug in Redux https://github.com/michaelficarra/CoffeeScriptRedux/issues/62, will probably be resolved with that
-Remove the parentheses from function definitions with no parameters, () -> simply becomes -> - this is because () is always a call.
