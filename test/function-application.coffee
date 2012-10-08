@@ -28,3 +28,5 @@ suite 'Function Application', ->
         new CS.MemberAccessOp @a, 'b'
       ]
 
+  test 'no arguments', ->
+    eq 'f!', generate new CS.FunctionApplication @f, []

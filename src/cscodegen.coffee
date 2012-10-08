@@ -351,15 +351,15 @@ do (exports = exports ? this.cscodegen = {}) ->
         "#{_op}#{_ctor}#{_args}"
 
       when 'FunctionApplication', 'SoakedFunctionApplication'
-        if ast.className is 'FunctionApplication' and ast.arguments.length is 0 and not usedAsExpression
-          generate (new DoOp ast.function), options
+        options = clone options,
+          ancestors: [ast, options.ancestors...]
+          precedence: precedence[ast.className]
+        _op = operators[ast.className]
+        _fn = generate ast.function, options
+        _fn = parens _fn if needsParensWhenOnLeft ast.function
+        if ast.className is 'FunctionApplication' and ast.arguments.length is 0 and options.ancestors[1]?.className not in ['UnaryExistsOp', 'SoakedMemberAccessOp']
+          "#{_fn}!"
         else
-          options = clone options,
-            ancestors: [ast, options.ancestors...]
-            precedence: precedence[ast.className]
-          _op = operators[ast.className]
-          _fn = generate ast.function, options
-          _fn = parens _fn if needsParensWhenOnLeft ast.function
           args = for a, i in ast.arguments
             arg = generate a, options
             arg = parens arg if (needsParensWhenOnLeft a) and i + 1 isnt ast.arguments.length

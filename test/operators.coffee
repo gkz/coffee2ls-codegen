@@ -102,7 +102,7 @@ suite 'Operators', ->
     eq '0; ->', generate new CS.SeqOp @zero, @emptyFunction
 
   test 'binary operators and function application', ->
-    eq 'f() % 0', generate new CS.RemOp (new CS.FunctionApplication @f, []), @zero
+    eq 'f! % 0', generate new CS.RemOp (new CS.FunctionApplication @f, []), @zero
     eq '(f 0) % 1', generate new CS.RemOp (new CS.FunctionApplication @f, [@zero]), @one
     eq '0 % f 1', generate new CS.RemOp @zero, new CS.FunctionApplication @f, [@one]
     eq 'f 0 % 1', generate new CS.FunctionApplication @f, [new CS.RemOp @zero, @one]
@@ -136,7 +136,7 @@ suite 'Operators', ->
     eq 'a?[\'b\']', generate new CS.SoakedDynamicMemberAccessOp @a, new CS.String 'b'
     eq 'a::[c = 0]', generate new CS.DynamicProtoMemberAccessOp @a, new CS.AssignOp @c, @zero
     eq 'a?::[0; 1]', generate new CS.SoakedDynamicProtoMemberAccessOp @a, new CS.SeqOp @zero, @one
-    eq 'f()[0]', generate new CS.DynamicMemberAccessOp (new CS.FunctionApplication @f, []), @zero
+    eq 'f![0]', generate new CS.DynamicMemberAccessOp (new CS.FunctionApplication @f, []), @zero
     eq '(f 0)[0]', generate new CS.DynamicMemberAccessOp (new CS.FunctionApplication @f, [@zero]), @zero
     eq '(->)[0]', generate new CS.DynamicMemberAccessOp @emptyFunction, @zero
     eq '(-> 0)[0]', generate new CS.DynamicMemberAccessOp (new CS.Function [], new CS.Block [@zero]), @zero
