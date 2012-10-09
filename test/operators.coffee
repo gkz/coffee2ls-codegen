@@ -131,17 +131,17 @@ suite 'Operators', ->
     eq '(new F 0).b', generate new CS.MemberAccessOp (new CS.NewOp @F, [@zero]), 'b'
 
   test 'dynamic member access operators', ->
-    eq 'a[0]', generate new CS.DynamicMemberAccessOp @a, @zero
-    eq 'a[0][1]', generate new CS.DynamicMemberAccessOp (new CS.DynamicMemberAccessOp @a, @zero), @one
+    eq 'a.0', generate new CS.DynamicMemberAccessOp @a, @zero
+    eq 'a.0.1', generate new CS.DynamicMemberAccessOp (new CS.DynamicMemberAccessOp @a, @zero), @one
     eq 'a?[\'b\']', generate new CS.SoakedDynamicMemberAccessOp @a, new CS.String 'b'
     eq 'a::[c = 0]', generate new CS.DynamicProtoMemberAccessOp @a, new CS.AssignOp @c, @zero
     eq 'a?::[0; 1]', generate new CS.SoakedDynamicProtoMemberAccessOp @a, new CS.SeqOp @zero, @one
-    eq 'f![0]', generate new CS.DynamicMemberAccessOp (new CS.FunctionApplication @f, []), @zero
-    eq '(f 0)[0]', generate new CS.DynamicMemberAccessOp (new CS.FunctionApplication @f, [@zero]), @zero
-    eq '(->)[0]', generate new CS.DynamicMemberAccessOp @emptyFunction, @zero
-    eq '(-> 0)[0]', generate new CS.DynamicMemberAccessOp (new CS.Function [], new CS.Block [@zero]), @zero
-    eq '(new F)[0]', generate new CS.DynamicMemberAccessOp (new CS.NewOp @F, []), @zero
-    eq '(new F 0)[1]', generate new CS.DynamicMemberAccessOp (new CS.NewOp @F, [@zero]), @one
+    eq 'f!.0', generate new CS.DynamicMemberAccessOp (new CS.FunctionApplication @f, []), @zero
+    eq '(f 0).0', generate new CS.DynamicMemberAccessOp (new CS.FunctionApplication @f, [@zero]), @zero
+    eq '(->).0', generate new CS.DynamicMemberAccessOp @emptyFunction, @zero
+    eq '(-> 0).0', generate new CS.DynamicMemberAccessOp (new CS.Function [], new CS.Block [@zero]), @zero
+    eq '(new F).0', generate new CS.DynamicMemberAccessOp (new CS.NewOp @F, []), @zero
+    eq '(new F 0).1', generate new CS.DynamicMemberAccessOp (new CS.NewOp @F, [@zero]), @one
 
   test 'combinations of static/dynamic member access operators', ->
     eq 'a.b[c]::d', generate new CS.ProtoMemberAccessOp (new CS.DynamicMemberAccessOp (new CS.MemberAccessOp @a, 'b'), @c), 'd'

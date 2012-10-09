@@ -402,7 +402,11 @@ do (exports = exports ? this.cscodegen = {}) ->
           _expr = parens _expr if needsParensWhenOnLeft ast.expression
         options.precedence = 0
         _indexingExpr = generate ast.indexingExpr, options
-        "#{_expr}#{_op}[#{_indexingExpr}]"
+
+        if ast.className is 'DynamicMemberAccessOp' and ast.indexingExpr.className in ['String', 'Int']
+          "#{_expr}#{_op}.#{_indexingExpr}"
+        else
+          "#{_expr}#{_op}[#{_indexingExpr}]"
 
       when 'ConcatOp'
         _left = formatInterpolation ast.left, options
