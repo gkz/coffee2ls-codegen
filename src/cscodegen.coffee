@@ -134,6 +134,7 @@ do (exports = exports ? this.cscodegen = {}) ->
   # TODO: DRY this function
   # TODO: ast as context?
   exports.generate = generate = (ast, options = {}) ->
+    return '' if not ast?
     needsParens = no
     options.precedence ?= 0
     options.ancestors ?= []
@@ -500,7 +501,7 @@ do (exports = exports ? this.cscodegen = {}) ->
 
         comprehension = false
         _body = if ast.body
-            comprehension = ast.body.statements.length is 1 and usedAsExpression and 'For' isnt ast.body.statements[0].className.slice 0, 3
+            comprehension = ast.body.statements?.length is 1 and usedAsExpression and 'For' isnt ast.body.statements[0].className.slice 0, 3
             generate ast.body, options
           else'void'
 
