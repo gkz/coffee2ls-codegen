@@ -112,10 +112,10 @@ suite 'Operators', ->
 
 
   test 'compound assignment operators', ->
-    eq 'a += 0', generate new CS.CompoundAssignOp CS.PlusOp, @a, @zero
-    eq 'a ||= 0', generate new CS.CompoundAssignOp CS.LogicalOrOp, @a, @zero
-    eq 'a .&.= 0', generate new CS.CompoundAssignOp CS.BitAndOp, @a, @zero
-    eq 'a .>>>.= 0', generate new CS.CompoundAssignOp CS.UnsignedRightShiftOp, @a, @zero
+    eq 'a += 0', generate new CS.CompoundAssignOp 'PlusOp', @a, @zero
+    eq 'a ||= 0', generate new CS.CompoundAssignOp 'LogicalOrOp', @a, @zero
+    eq 'a .&.= 0', generate new CS.CompoundAssignOp 'BitAndOp', @a, @zero
+    eq 'a .>>>.= 0', generate new CS.CompoundAssignOp 'UnsignedRightShiftOp', @a, @zero
 
   test 'chained comparison operators', ->
     eq 'a < b < c', generate new CS.ChainedComparisonOp new CS.LTOp (new CS.LTOp @a, @b), @c

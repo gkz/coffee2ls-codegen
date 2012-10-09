@@ -277,7 +277,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         options = clone options,
           ancestors: [ast, options.ancestors...]
           precedence: prec
-        _op = operators[ast.op::className]
+        _op = operators[ast.op]
         _assignee = generate ast.assignee, options
         _expr = generate ast.expression, options
         "#{_assignee} #{_op}= #{_expr}"
