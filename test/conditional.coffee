@@ -1,8 +1,8 @@
 suite 'Conditionals', ->
 
-  test 'basic', ->
-    eq 'if 0 then 1', generate new CS.Conditional (new CS.Int 0), new CS.Block [new CS.Int 1]
-    eq 'if 0 then 1', generate new CS.Conditional (new CS.Int 0), new CS.Int 1
+  test 'basic postfix', ->
+    eq '1 if 0', generate new CS.Conditional (new CS.Int 0), new CS.Block [new CS.Int 1]
+    eq '1 if 0', generate new CS.Conditional (new CS.Int 0), new CS.Int 1
 
   test 'basic with else', ->
     eq 'if 0 then 1 else 2', generate new CS.Conditional (new CS.Int 0), (new CS.Block [new CS.Int 1]), new CS.Block [new CS.Int 2]

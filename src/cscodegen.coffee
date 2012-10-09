@@ -162,6 +162,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         hasAlternate = ast.consequent? and ast.alternate?
         _consequent = generate (ast.consequent ? (new Undefined).g()), options
         _alternate = if hasAlternate then generate ast.alternate, options else ""
+        _condition = generate ast.condition, options
 
         isMultiline =
           _consequent.length > 90 or
@@ -169,12 +170,16 @@ do (exports = exports ? this.cscodegen = {}) ->
           '\n' in _alternate or
           '\n' in _consequent
 
-        _consequent = if isMultiline then "\n#{indent _consequent}" else " then #{_consequent}"
         if hasAlternate
           _alternate =
             if isMultiline then "\nelse\n#{indent _alternate}"
             else " else #{_alternate}"
-        "if #{generate ast.condition, options}#{_consequent}#{_alternate}"
+        if not isMultiline and not hasAlternate and not usedAsExpression
+          "#{_consequent} if #{_condition}"
+        else if isMultiline
+          "if #{_condition}\n#{indent _consequent}#{_alternate}"
+        else
+          "if #{_condition} then #{_consequent}#{_alternate}"
 
       when 'Identifier'
         if ast.data in lsReserved
