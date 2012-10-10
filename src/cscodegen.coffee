@@ -96,7 +96,7 @@ do (exports = exports ? this.cscodegen = {}) ->
     LeftShiftOp: '.<<.', SignedRightShiftOp: '.>>.', UnsignedRightShiftOp: '.>>>.'
     PlusOp: '+', SubtractOp: '-', MultiplyOp: '*', DivideOp: '/', RemOp: '%',
     ExpOp: '**',
-    AssignOp: '=', ExistsAssignOp: '?='
+    AssignOp: '=', ExistsAssignOp: '?=', ExistsOp: '?'
     # Prefix
     UnaryPlusOp: '+', UnaryNegateOp: '-', LogicalNotOp: 'not ', BitNotOp: '~'
     NewOp: 'new ', TypeofOp: 'typeof '

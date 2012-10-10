@@ -88,6 +88,7 @@ suite 'Operators', ->
     eq 'a = 0', generate new CS.AssignOp @a, @zero
     eq 'a ?= 0', generate new CS.ExistsAssignOp @a, @zero
     eq 'a extends b', generate new CS.ExtendsOp @a, @b
+    eq 'a ? b', generate new CS.ExistsOp @a, @b
 
   test 'non-spaced subtract is spaced', ->
     eq 'a - b', generate new CS.SubtractOp @a, @b
