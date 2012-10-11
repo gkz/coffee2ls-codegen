@@ -317,7 +317,7 @@ do (exports = exports ? this.cscodegen = {}) ->
           if ast.expression.className in ['InOp', 'OfOp', 'InstanceofOp']
             _op = '' # these will be treated as negated variants
             prec = precedence[ast.expression.className]
-          if 'LogicalNotOp' in [parentClassName, ast.expression.className]
+          if 'LogicalNotOp' in [parentClassName, ast.expression.className] or 'EQOp' is parentClassName
             _op = '!'
         needsParens = prec < options.precedence
         needsParens = yes if parentClassName is ast.className and ast.className in ['UnaryPlusOp', 'UnaryNegateOp']
@@ -325,7 +325,7 @@ do (exports = exports ? this.cscodegen = {}) ->
           ancestors: [ast, options.ancestors...]
           precedence: prec
         if ast.className is 'UnaryNegateOp' and ast.expression.className is 'PreDecrementOp'
-          "(- #{generate ast.expression, options})"
+          parens "-#{parens generate ast.expression, options}"
         else
           "#{_op}#{generate ast.expression, options}"
 

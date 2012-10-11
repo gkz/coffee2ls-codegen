@@ -59,7 +59,7 @@ suite 'Operators', ->
     eq '(new F)?', generate new CS.UnaryExistsOp new CS.NewOp @F, []
 
   test 'unary prefix operators and unary prefix operators', ->
-    eq '(- --a)', generate new CS.UnaryNegateOp new CS.PreDecrementOp @a
+    eq '(-(--a))', generate new CS.UnaryNegateOp new CS.PreDecrementOp @a
 
   test 'binary operators', ->
     eq '0; 1', generate new CS.SeqOp @zero, @one
