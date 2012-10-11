@@ -31,6 +31,9 @@ suite 'Loop, Ranges, and Slices', ->
   test 'equal exclusive slice', ->
     eq 'x[1 til (1)]', generate new CS.Slice @x, false, @one, @one
 
+  test 'negative slice', ->
+    eq 'x[2 to -1]', generate new CS.Slice @x, true, @two, new CS.Int -1
+
   test 'for in loop', ->
     eq 'for x in xs\n  x',
       generate new CS.ForIn @x, null, @xs, @one, null, @blk

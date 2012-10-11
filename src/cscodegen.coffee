@@ -475,7 +475,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         if ast.left and ast.right
           left = +(generate ast.left, options)
           right = +(generate ast.right, options)
-          if left > right
+          if left > right and ast.className is 'Range'
             _by = ' by -1'
           else if left is right and not ast.isInclusive
             if ast.className is 'Range'
