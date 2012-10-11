@@ -424,23 +424,16 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'RegExp', 'HeregExp'
         options.ancestors = [ast, options.ancestors...]
-        if ast.className is 'RegExp'
-          _exprs = ast.data
-          _symbol = '/'
+        _symbol = '//'
+        _exprs = if ast.className is 'RegExp'
+          ast.data
         else
-          _exprs = formatInterpolation ast.expression, options
-          _symbol = '//'
+          formatInterpolation ast.expression, options
 
         _flags = ''
         _flags += flag for flag, state of ast.flags when state
 
-        _out = "#{_symbol}#{_exprs}#{_symbol}#{_flags}"
-        if ast.className is 'RegExp' and ast.data is ' '
-          parens _out
-        else if ast.className is 'RegExp' and ast.data is ''
-          '////'
-        else
-          _out
+        "#{_symbol}#{_exprs}#{_symbol}#{_flags}"
 
       when 'DoOp'
         exp = ast.expression
