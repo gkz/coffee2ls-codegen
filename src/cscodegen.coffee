@@ -326,7 +326,7 @@ do (exports = exports ? this.cscodegen = {}) ->
           ancestors: [ast, options.ancestors...]
           precedence: prec
         if ast.className is 'UnaryNegateOp' and ast.expression.className is 'PreDecrementOp'
-          parens "-#{parens generate ast.expression, options}"
+          "-#{parens generate ast.expression, options}"
         else
           "#{_op}#{generate ast.expression, options}"
 
