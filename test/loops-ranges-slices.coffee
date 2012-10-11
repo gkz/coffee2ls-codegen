@@ -25,14 +25,14 @@ suite 'Loop, Ranges, and Slices', ->
     eq '[]', generate new CS.Range false, @one, @one
 
   test 'simple slice', ->
-    eq 'x[1 to 2]', generate new CS.Slice @x, true, @one, @two
-    eq 'x[1 til 2]', generate new CS.Slice @x, false, @one, @two
+    eq 'x.slice(1, 2 + 1 || 9e9)', generate new CS.Slice @x, true, @one, @two
+    eq 'x.slice(1, 2)', generate new CS.Slice @x, false, @one, @two
 
   test 'equal exclusive slice', ->
-    eq 'x[1 til (1)]', generate new CS.Slice @x, false, @one, @one
+    eq 'x.slice(1, 1)', generate new CS.Slice @x, false, @one, @one
 
   test 'negative slice', ->
-    eq 'x[2 to -1]', generate new CS.Slice @x, true, @two, new CS.Int -1
+    eq 'x.slice(2, -1 + 1 || 9e9)', generate new CS.Slice @x, true, @two, new CS.Int -1
 
   test 'for in loop', ->
     eq 'for x in xs\n  x',

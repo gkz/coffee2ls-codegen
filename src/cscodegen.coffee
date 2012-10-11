@@ -472,23 +472,29 @@ do (exports = exports ? this.cscodegen = {}) ->
       when 'Range', 'Slice'
         options.ancestors = [ast, options.ancestors...]
         _by = ''
-        if ast.left and ast.right
+        if ast.left and ast.right and ast.className is 'Range'
           left = +(generate ast.left, options)
           right = +(generate ast.right, options)
-          if left > right and ast.className is 'Range'
+          if left > right
             _by = ' by -1'
           else if left is right and not ast.isInclusive
             if ast.className is 'Range'
               _arrPart = '[]'
-            else
-              _arrPart = "[#{left} til (#{right})]"
         else ''
         _mid = if ast.isInclusive then 'to' else 'til'
         _left = if ast.left then generate ast.left, options else ''
         _right = if ast.right then generate ast.right, options else ''
         _target = if ast.expression then generate ast.expression, options else ''
-        _arrPart ?= "[#{_left} #{_mid} #{_right}#{_by}]"
-        "#{_target}#{_arrPart}"
+        if ast.className is 'Slice'
+          _left ?= '0'
+          if _mid is 'to'
+            _left = "#{_left}"
+            _right = "#{_right} + 1 || 9e9" if _right
+          _args = [_left, _right].join ', '
+          "#{_target}.slice(#{_args})"
+        else
+          _arrPart ?= "[#{_left} #{_mid} #{_right}#{_by}]"
+          "#{_target}#{_arrPart}"
 
       when 'ForIn', 'ForOf'
         options.ancestors = [ast, options.ancestors...]
