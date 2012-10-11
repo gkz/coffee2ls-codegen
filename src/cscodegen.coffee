@@ -34,7 +34,7 @@ do (exports = exports ? this.cscodegen = {}) ->
   needsParensWhenOnLeft = (ast) ->
     switch ast.className
       when 'Function', 'BoundFunction', 'NewOp', 'Class' then yes
-      when 'Conditional', 'Switch', 'While', 'Block' then yes
+      when 'Conditional', 'Switch', 'While', 'ForIn', 'ForOf', 'Block' then yes
       when 'PreIncrementOp', 'PreDecrementOp', 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'DoOp', 'TypeofOp', 'DeleteOp'
         needsParensWhenOnLeft ast.expression
       when 'FunctionApplication' then ast.arguments.length > 0
@@ -262,7 +262,7 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'AssignOp', 'ExistsAssignOp'
         _op = operators[ast.className]
-        if ast.reassgin
+        if ast.reassign
           _op = if ast.className is 'AssignOp' then ':=' else '?:='
         prec = precedence[ast.className]
         needsParens = prec < options.precedence
