@@ -262,7 +262,8 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'AssignOp', 'ExistsAssignOp'
         _op = operators[ast.className]
-        _op = ':=' if ast.reassign
+        if ast.reassgin
+          _op = if ast.className is 'AssignOp' then ':=' else '?:='
         prec = precedence[ast.className]
         needsParens = prec < options.precedence
         options = clone options,
