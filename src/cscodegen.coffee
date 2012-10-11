@@ -5,7 +5,7 @@ do (exports = exports ? this.cscodegen = {}) ->
   parens = (code) -> "(#{code})"
 
   formatStringData = (data) ->
-    data.replace /[^\x20-\x7e]|['\\]/, (c) ->
+    data.replace /[^\x20-\x7e]|['\\]/g, (c) ->
       switch c
         when '\0' then '\\0'
         when '\b' then '\\b'
@@ -33,7 +33,7 @@ do (exports = exports ? this.cscodegen = {}) ->
 
   needsParensWhenOnLeft = (ast) ->
     switch ast.className
-      when 'Function', 'BoundFunction', 'NewOp' then yes
+      when 'Function', 'BoundFunction', 'NewOp', 'Class' then yes
       when 'Conditional', 'Switch', 'While', 'Block' then yes
       when 'PreIncrementOp', 'PreDecrementOp', 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'DoOp', 'TypeofOp', 'DeleteOp'
         needsParensWhenOnLeft ast.expression
@@ -324,7 +324,10 @@ do (exports = exports ? this.cscodegen = {}) ->
         options = clone options,
           ancestors: [ast, options.ancestors...]
           precedence: prec
-        "#{_op}#{generate ast.expression, options}"
+        if ast.className is 'UnaryNegateOp' and ast.expression.className is 'PreDecrementOp'
+          "(- #{generate ast.expression, options})"
+        else
+          "#{_op}#{generate ast.expression, options}"
 
       when 'DeleteOp'
         "delete! #{generate ast.expression, options}"
@@ -368,7 +371,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         else
           args = for a, i in ast.arguments
             arg = generate a, options
-            arg = parens arg if (needsParensWhenOnLeft a) and i + 1 isnt ast.arguments.length
+            arg = parens arg if ((needsParensWhenOnLeft a) and i + 1 isnt ast.arguments.length) or (a.className is 'Function' and i is 0)
             arg
           _argList = if ast.arguments.length is 0 then '()' else " #{args.join ', '}"
           "#{_fn}#{_op}#{_argList}"
@@ -430,7 +433,13 @@ do (exports = exports ? this.cscodegen = {}) ->
         _flags = ''
         _flags += flag for flag, state of ast.flags when state
 
-        "#{_symbol}#{_exprs}#{_symbol}#{_flags}"
+        _out = "#{_symbol}#{_exprs}#{_symbol}#{_flags}"
+        if ast.className is 'RegExp' and ast.data is ' '
+          parens _out
+        else if ast.className is 'RegExp' and ast.data is ''
+          '////'
+        else
+          _out
 
       when 'DoOp'
         exp = ast.expression
@@ -461,11 +470,24 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'Range', 'Slice'
         options.ancestors = [ast, options.ancestors...]
+        _by = ''
+        if ast.left and ast.right
+          left = +(generate ast.left, options)
+          right = +(generate ast.right, options)
+          if left > right
+            _by = ' by -1'
+          else if left is right and not ast.isInclusive
+            if ast.className is 'Range'
+              _arrPart = '[]'
+            else
+              _arrPart = "[#{left} til (#{right})]"
+        else ''
         _mid = if ast.isInclusive then 'to' else 'til'
         _left = if ast.left then generate ast.left, options else ''
         _right = if ast.right then generate ast.right, options else ''
         _target = if ast.expression then generate ast.expression, options else ''
-        "#{_target}[#{_left} #{_mid} #{_right}]"
+        _arrPart ?= "[#{_left} #{_mid} #{_right}#{_by}]"
+        "#{_target}#{_arrPart}"
 
       when 'ForIn', 'ForOf'
         options.ancestors = [ast, options.ancestors...]

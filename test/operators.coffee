@@ -52,13 +52,14 @@ suite 'Operators', ->
     eq '(f 0)?', generate new CS.UnaryExistsOp new CS.FunctionApplication @f, [@zero]
     eq 'f()?', generate new CS.UnaryExistsOp new CS.FunctionApplication @f, []
 
-
   test 'unary prefix operators and unary postfix operators', ->
     eq '+0++', generate new CS.UnaryPlusOp new CS.PostIncrementOp @zero
     eq '(+0)++', generate new CS.PostIncrementOp new CS.UnaryPlusOp @zero
     eq 'new (F?)', generate new CS.NewOp (new CS.UnaryExistsOp @F), []
     eq '(new F)?', generate new CS.UnaryExistsOp new CS.NewOp @F, []
 
+  test 'unary prefix operators and unary prefix operators', ->
+    eq '(- --a)', generate new CS.UnaryNegateOp new CS.PreDecrementOp @a
 
   test 'binary operators', ->
     eq '0; 1', generate new CS.SeqOp @zero, @one

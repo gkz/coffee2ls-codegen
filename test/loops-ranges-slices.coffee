@@ -18,9 +18,18 @@ suite 'Loop, Ranges, and Slices', ->
     eq '[1 to 2]', generate new CS.Range true, @one, @two
     eq '[1 til 2]', generate new CS.Range false, @one, @two
 
+  test 'downward range', ->
+    eq '[2 to 1 by -1]', generate new CS.Range true, @two, @one
+
+  test 'equal exclusive range', ->
+    eq '[]', generate new CS.Range false, @one, @one
+
   test 'simple slice', ->
     eq 'x[1 to 2]', generate new CS.Slice @x, true, @one, @two
     eq 'x[1 til 2]', generate new CS.Slice @x, false, @one, @two
+
+  test 'equal exclusive slice', ->
+    eq 'x[1 til (1)]', generate new CS.Slice @x, false, @one, @one
 
   test 'for in loop', ->
     eq 'for x in xs\n  x',

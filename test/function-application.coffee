@@ -15,6 +15,9 @@ suite 'Function Application', ->
         ]
       ]
 
+  test 'no arg function as argument', ->
+    eq '((x) -> x) (-> 0)', generate new CS.FunctionApplication (new CS.Function [@x], new CS.Block [@x]), [new CS.Function [], new CS.Int 0]
+
   test 'do/let op', ->
     eq 'let a = b\n  b', generate new CS.DoOp new CS.Function [
         new CS.DefaultParam @a, @b
