@@ -138,6 +138,8 @@ do (exports = exports ? this.cscodegen = {}) ->
     needsParens = no
     options.precedence ?= 0
     options.ancestors ?= []
+    options.varsTotal ?= []
+    options.varsFunc ?= []
     parent = options.ancestors[0]
     parentClassName = parent?.className
     usedAsExpression = parent? and parentClassName isnt 'Block'
@@ -248,6 +250,8 @@ do (exports = exports ? this.cscodegen = {}) ->
         options = clone options,
           ancestors: [ast, options.ancestors...]
           precedence: precedence.AssignmentExpression
+          varsTotal: options.varsTotal[..]
+          varsFunc: []
         parameters = (generate p, options for p in ast.parameters)
         options.precedence = 0
         _body = if !ast.body? or ast.body.className is 'Undefined' then '' else generate ast.body, options
@@ -262,8 +266,35 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'AssignOp', 'ExistsAssignOp'
         _op = operators[ast.className]
-        if ast.reassign
-          _op = if ast.className is 'AssignOp' then ':=' else '?:='
+
+        vars = []
+        findIds = (node) ->
+          switch node.className
+            when 'Identifier'
+              vars.push node.data
+            when 'ObjectInitialiserMember'
+              vars.push node.expression.data
+            when 'ArrayInitialiser', 'ObjectInitialiser'
+              for member in node.members
+                findIds member
+          undefined
+        findIds ast.assignee
+
+        if vars.length
+          allNew = true
+          allReassign = true
+          for v in vars
+            if v in options.varsTotal and v not in options.varsFunc
+              allNew = false
+            else
+              allReassign = false
+              options.varsTotal.push v
+              options.varsFunc.push v
+
+          if allReassign
+            _op = if ast.className is 'AssignOp' then ':=' else '?:='
+          else if not allNew
+            throw new Error 'mixed reassign and initialisation in destructuring is not currently supported'
         prec = precedence[ast.className]
         needsParens = prec < options.precedence
         options = clone options,
@@ -438,6 +469,11 @@ do (exports = exports ? this.cscodegen = {}) ->
       when 'DoOp'
         exp = ast.expression
         if exp.className is 'Function' and ((exp.body? and exp.body.className isnt 'Undefined') or exp.parameters.length)
+          options = clone options,
+            ancestors: [ast, options.ancestors...]
+            precedence: prec
+            varsTotal: options.varsTotal[..]
+            varsFunc: []
           _op = 'let '
           parameters = (generate p, options for p in exp.parameters)
           options.precedence = 0

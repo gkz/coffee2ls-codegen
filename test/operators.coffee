@@ -91,6 +91,10 @@ suite 'Operators', ->
     eq 'a extends b', generate new CS.ExtendsOp @a, @b
     eq 'a ? b', generate new CS.ExistsOp @a, @b
 
+  test 'assign op as reassign', ->
+    eq 'a = -> a := b', generate new CS.AssignOp @a, new CS.Function [],
+      new CS.Block [ new CS.AssignOp @a, @b ]
+
   test 'non-spaced subtract is spaced', ->
     eq 'a - b', generate new CS.SubtractOp @a, @b
 
