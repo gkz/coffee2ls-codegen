@@ -516,6 +516,8 @@ do (exports = exports ? this.cscodegen = {}) ->
         _target = if ast.expression then generate ast.expression, options else ''
         if ast.className is 'Slice'
           _left ?= '0'
+          _left = "+#{_left}" if ast.left and ast.left.className is 'String'
+          _right = "+#{_right}" if ast.right and ast.right.className is 'String'
           if _mid is 'to'
             _left = "#{_left}"
             _right = "#{_right} + 1 || 9e9" if _right
