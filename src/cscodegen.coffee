@@ -273,6 +273,8 @@ do (exports = exports ? this.cscodegen = {}) ->
             switch node.className
               when 'Identifier'
                 vars.push node.data
+              when 'Rest'
+                vars.push node.expression.data
               when 'ObjectInitialiserMember'
                 vars.push node.expression.data
               when 'ArrayInitialiser', 'ObjectInitialiser'
