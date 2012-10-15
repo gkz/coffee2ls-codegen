@@ -504,11 +504,14 @@ do (exports = exports ? this.cscodegen = {}) ->
         if ast.left and ast.right and ast.className is 'Range'
           left = +(generate ast.left, options)
           right = +(generate ast.right, options)
-          if left > right
-            _by = ' by -1'
-          else if left is right and not ast.isInclusive
-            if ast.className is 'Range'
-              _arrPart = '[]'
+          if left is left and right is right # NaN check
+            if left > right
+              _by = ' by -1'
+            else if left is right and not ast.isInclusive
+              if ast.className is 'Range'
+                _main = '[]'
+          else
+            nonLiteral = true
         else ''
         _mid = if ast.isInclusive then 'to' else 'til'
         _left = if ast.left then generate ast.left, options else ''
@@ -518,14 +521,16 @@ do (exports = exports ? this.cscodegen = {}) ->
           _left ?= '0'
           _left = "+#{_left}" if ast.left and ast.left.className is 'String'
           _right = "+#{_right}" if ast.right and ast.right.className is 'String'
-          if _mid is 'to'
-            _left = "#{_left}"
-            _right = "#{_right} + 1 || 9e9" if _right
+          _right = "#{_right} + 1 || 9e9" if _right and _mid is 'to'
           _args = [_left, _right].join ', '
           "#{_target}.slice(#{_args})"
         else
-          _arrPart ?= "[#{_left} #{_mid} #{_right}#{_by}]"
-          "#{_target}#{_arrPart}"
+          if _main
+            _main
+          else if nonLiteral and not _by # hmmm
+            parens "if (ref$$ = #{_left}) > (ref1$$ = #{_right}) then [ref$$ #{_mid} ref1$$ by -1] else [ref$$ #{_mid} ref1$$]"
+          else
+            "[#{_left} #{_mid} #{_right}#{_by}]"
 
       when 'ForIn', 'ForOf'
         options.ancestors = [ast, options.ancestors...]
