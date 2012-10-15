@@ -96,7 +96,7 @@ do (exports = exports ? this.cscodegen = {}) ->
     LeftShiftOp: '.<<.', SignedRightShiftOp: '.>>.', UnsignedRightShiftOp: '.>>>.'
     PlusOp: '+', SubtractOp: '-', MultiplyOp: '*', DivideOp: '/', RemOp: '%',
     ExpOp: '**',
-    AssignOp: '=', ExistsAssignOp: '?=', ExistsOp: '?'
+    AssignOp: '=', ExistsAssignOp: '?:=', ExistsOp: '?'
     # Prefix
     UnaryPlusOp: '+', UnaryNegateOp: '-', LogicalNotOp: 'not ', BitNotOp: '~'
     NewOp: 'new ', TypeofOp: 'typeof '
@@ -267,34 +267,35 @@ do (exports = exports ? this.cscodegen = {}) ->
       when 'AssignOp', 'ExistsAssignOp'
         _op = operators[ast.className]
 
-        vars = []
-        findIds = (node) ->
-          switch node.className
-            when 'Identifier'
-              vars.push node.data
-            when 'ObjectInitialiserMember'
-              vars.push node.expression.data
-            when 'ArrayInitialiser', 'ObjectInitialiser'
-              for member in node.members
-                findIds member
-          undefined
-        findIds ast.assignee
+        if ast.className is 'AssignOp'
+          vars = []
+          findIds = (node) ->
+            switch node.className
+              when 'Identifier'
+                vars.push node.data
+              when 'ObjectInitialiserMember'
+                vars.push node.expression.data
+              when 'ArrayInitialiser', 'ObjectInitialiser'
+                for member in node.members
+                  findIds member
+            undefined
+          findIds ast.assignee
 
-        if vars.length
-          allNew = true
-          allReassign = true
-          for v in vars
-            if v in options.varsTotal and v not in options.varsFunc
-              allNew = false
-            else
-              allReassign = false
-              options.varsTotal.push v
-              options.varsFunc.push v
+          if vars.length
+            allNew = true
+            allReassign = true
+            for v in vars
+              if v in options.varsTotal and v not in options.varsFunc
+                allNew = false
+              else
+                allReassign = false
+                options.varsTotal.push v
+                options.varsFunc.push v
 
-          if allReassign
-            _op = if ast.className is 'AssignOp' then ':=' else '?:='
-          else if not allNew
-            throw new Error 'mixed reassign and initialisation in destructuring is not currently supported'
+            if allReassign
+              _op = ':='
+            else if not allNew
+              throw new Error 'mixed reassign and initialisation in destructuring is not currently supported'
         prec = precedence[ast.className]
         needsParens = prec < options.precedence
         options = clone options,
@@ -313,7 +314,8 @@ do (exports = exports ? this.cscodegen = {}) ->
         _op = operators[ast.op]
         _assignee = generate ast.assignee, options
         _expr = generate ast.expression, options
-        "#{_assignee} #{_op}= #{_expr}"
+        _assg = if ast.op in ['LogicalOrOp', 'LogicalAndOp'] then ':=' else '='
+        "#{_assignee} #{_op}#{_assg} #{_expr}"
 
       when 'SeqOp'
         prec = precedence[ast.className]

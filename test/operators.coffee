@@ -87,7 +87,7 @@ suite 'Operators', ->
     eq '0 % 1', generate new CS.RemOp @zero, @one
     eq '0 ** 1', generate new CS.ExpOp @zero, @one
     eq 'a = 0', generate new CS.AssignOp @a, @zero
-    eq 'a ?= 0', generate new CS.ExistsAssignOp @a, @zero
+    eq 'a ?:= 0', generate new CS.ExistsAssignOp @a, @zero
     eq 'a extends b', generate new CS.ExtendsOp @a, @b
     eq 'a ? b', generate new CS.ExistsOp @a, @b
 
@@ -119,7 +119,7 @@ suite 'Operators', ->
 
   test 'compound assignment operators', ->
     eq 'a += 0', generate new CS.CompoundAssignOp 'PlusOp', @a, @zero
-    eq 'a ||= 0', generate new CS.CompoundAssignOp 'LogicalOrOp', @a, @zero
+    eq 'a ||:= 0', generate new CS.CompoundAssignOp 'LogicalOrOp', @a, @zero
     eq 'a .&.= 0', generate new CS.CompoundAssignOp 'BitAndOp', @a, @zero
     eq 'a .>>>.= 0', generate new CS.CompoundAssignOp 'UnsignedRightShiftOp', @a, @zero
 
