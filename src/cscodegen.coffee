@@ -653,8 +653,10 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'Class'
         options.ancestors = [ast, options.ancestors...]
+        _s = ''
         _nameAssg = if ast.nameAssignee
-            " #{generate ast.nameAssignee, options}"
+            _s = ' '
+            generate ast.nameAssignee, options
           else ''
 
         _parent = if ast.parent
@@ -665,7 +667,10 @@ do (exports = exports ? this.cscodegen = {}) ->
             "\n#{indent generate ast.body, options}"
           else ''
 
-        "class#{_nameAssg}#{_parent}#{_body}"
+        if ast.nameAssignee?.className is 'MemberAccessOp'
+          "#{_nameAssg} = class#{_parent}#{_body}"
+        else
+          "class#{_s}#{_nameAssg}#{_parent}#{_body}"
 
       when 'Constructor'
         _body = generate ast.expression, options
