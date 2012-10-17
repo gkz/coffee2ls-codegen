@@ -38,6 +38,7 @@ do (exports = exports ? this.cscodegen = {}) ->
       when 'PreIncrementOp', 'PreDecrementOp', 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'DoOp', 'TypeofOp', 'DeleteOp'
         needsParensWhenOnLeft ast.expression
       when 'FunctionApplication' then ast.arguments.length > 0
+      when 'Super' then yes
       else no
 
   eq = (nodeA, nodeB) ->
@@ -652,9 +653,13 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'Super'
         options.ancestors = [ast, options.ancestors...]
-        if ast.arguments
-          generate new CS.FunctionApplication (new CS.Identifier 'super'),
-            ast.arguments
+        if ast.arguments.length
+          args = for a, i in ast.arguments
+            arg = generate a, options
+            arg = parens arg if ((needsParensWhenOnLeft a) and i + 1 isnt ast.arguments.length) or (a.className is 'Function' and i is 0)
+            arg
+          _argList = args.join ', '
+          "super #{_argList}"
         else
           'super ...'
 

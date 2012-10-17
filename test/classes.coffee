@@ -10,7 +10,7 @@ suite 'Classes', ->
     @this = new CS.This '@'
 
   test 'super', ->
-    eq 'super ...', generate new CS.Super()
+    eq 'super ...', generate new CS.Super []
     eq 'super x, y', generate new CS.Super [@x, @y]
 
   test 'no bodied classes', ->
