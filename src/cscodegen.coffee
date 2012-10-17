@@ -402,7 +402,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         _op = operators[ast.className]
         _fn = generate ast.function, options
         _fn = parens _fn if needsParensWhenOnLeft ast.function
-        if ast.className is 'FunctionApplication' and ast.arguments.length is 0 and options.ancestors[1]?.className not in ['UnaryExistsOp', 'SoakedMemberAccessOp']
+        if ast.className is 'FunctionApplication' and ast.arguments.length is 0 and parentClassName not in ['UnaryExistsOp', 'SoakedMemberAccessOp']
           "#{_fn}!"
         else
           args = for a, i in ast.arguments
@@ -574,7 +574,11 @@ do (exports = exports ? this.cscodegen = {}) ->
 
         comprehension = false
         _body = if ast.body
-            comprehension = ast.body.statements?.length is 1 and usedAsExpression and 'For' isnt ast.body.statements[0].className.slice 0, 3
+            comprehension = if ast.body.className is 'Block'
+              1 is ast.body.statements.length and 'For' isnt ast.body.statements[0].className.slice 0, 3
+            else
+              ast.body.className not in ['Function', 'BoundFunction'] and 'For' isnt ast.body.className.slice 0, 3
+            comprehension &&= usedAsExpression
             generate ast.body, options
           else'void'
 
@@ -583,7 +587,10 @@ do (exports = exports ? this.cscodegen = {}) ->
         if comprehension
           "[#{_body} #{_mainPart}]"
         else
-          "#{_mainPart}\n#{indent _body}"
+          _output = "#{_mainPart}\n#{indent _body}"
+          if usedAsExpression and parentClassName isnt 'AssignOp'
+            parens _output
+          else _output
 
       when 'While'
         options.ancestors = [ast, options.ancestors...]
