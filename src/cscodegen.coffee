@@ -58,6 +58,22 @@ do (exports = exports ? this.cscodegen = {}) ->
     newObj[prop] = val for own prop, val of overrides
     newObj
 
+  generateArgs = (args, options = {}) ->
+    if args.length
+      argList = for a, i in args
+        arg = generate a, options
+        arg = parens arg if ((needsParensWhenOnLeft a) and i + 1 isnt args.length) or (a.className is 'Function' and i is 0)
+        arg
+      argList.join ', '
+    else ''
+
+  genVar = (options, name = 'ref') ->
+    i = 0
+    ++i while (out = "#{name}#{i or ''}$$") in options.varsTotal
+    options.varsTotal.push out
+    options.varsFunc.push out
+    out
+
   levels = [
     ['SeqOp'] # Sequence
     ['Conditional', 'ForIn', 'ForOf', 'While'] # Control Flow
@@ -144,6 +160,7 @@ do (exports = exports ? this.cscodegen = {}) ->
     parent = options.ancestors[0]
     parentClassName = parent?.className
     usedAsExpression = parent? and parentClassName isnt 'Block'
+
     src = switch ast.className
 
       when 'Program'
@@ -187,7 +204,7 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'Identifier'
         if ast.data in lsReserved
-          "#{ast.data}$$"
+          genVar options, ast.data
         else
           ast.data
 
@@ -389,11 +406,10 @@ do (exports = exports ? this.cscodegen = {}) ->
         _ctor = generate ast.ctor, options
         _ctor = parens _ctor if ast.arguments.length > 0 and needsParensWhenOnLeft ast.ctor
         options.precedence = precedence['AssignOp']
-        args = for a, i in ast.arguments
-          arg = generate a, options
-          arg = parens arg if (needsParensWhenOnLeft a) and i + 1 isnt ast.arguments.length
-          arg
-        _args = if ast.arguments.length is 0 then '' else " #{args.join ', '}"
+        _args = if ast.arguments.length
+          " #{ generateArgs ast.arguments, options }"
+        else
+          ''
         "#{_op}#{_ctor}#{_args}"
 
       when 'FunctionApplication', 'SoakedFunctionApplication'
@@ -406,11 +422,10 @@ do (exports = exports ? this.cscodegen = {}) ->
         if ast.className is 'FunctionApplication' and ast.arguments.length is 0 and parentClassName not in ['UnaryExistsOp', 'SoakedMemberAccessOp']
           "#{_fn}!"
         else
-          args = for a, i in ast.arguments
-            arg = generate a, options
-            arg = parens arg if ((needsParensWhenOnLeft a) and i + 1 isnt ast.arguments.length) or (a.className is 'Function' and i is 0)
-            arg
-          _argList = if ast.arguments.length is 0 then '()' else " #{args.join ', '}"
+          _argList = if ast.arguments.length
+            " #{ generateArgs ast.arguments, options }"
+          else
+            '()'
           "#{_fn}#{_op}#{_argList}"
 
       when 'MemberAccessOp', 'SoakedMemberAccessOp', 'ProtoMemberAccessOp', 'SoakedProtoMemberAccessOp'
@@ -533,7 +548,9 @@ do (exports = exports ? this.cscodegen = {}) ->
           if _main
             _main
           else if nonLiteral and not _by # hmmm
-            parens "if (ref$$ = #{_left}) > (ref1$$ = #{_right}) then [ref$$ #{_mid} ref1$$ by -1] else [ref$$ #{_mid} ref1$$]"
+            firstRef = genVar options
+            secondRef = genVar options
+            parens "if (#{firstRef} = #{_left}) > (#{secondRef} = #{_right}) then [#{firstRef} #{_mid} #{secondRef} by -1] else [#{firstRef} #{_mid} #{secondRef}]"
           else
             "[#{_left} #{_mid} #{_right}#{_by}]"
 
@@ -653,15 +670,11 @@ do (exports = exports ? this.cscodegen = {}) ->
 
       when 'Super'
         options.ancestors = [ast, options.ancestors...]
-        if ast.arguments.length
-          args = for a, i in ast.arguments
-            arg = generate a, options
-            arg = parens arg if ((needsParensWhenOnLeft a) and i + 1 isnt ast.arguments.length) or (a.className is 'Function' and i is 0)
-            arg
-          _argList = args.join ', '
-          "super #{_argList}"
+        _args = if ast.arguments.length
+          "#{ generateArgs ast.arguments, options }"
         else
-          'super ...'
+          '...'
+        "super #{_args}"
 
       when 'Class'
         options.ancestors = [ast, options.ancestors...]
