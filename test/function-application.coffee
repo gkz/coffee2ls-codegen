@@ -33,3 +33,11 @@ suite 'Function Application', ->
 
   test 'no arguments', ->
     eq 'f!', generate new CS.FunctionApplication @f, []
+
+  test 'with logical ops', ->
+    eq 'f a && b', generate new CS.FunctionApplication @f, [
+      new CS.LogicalAndOp @a, @b
+    ]
+    eq 'f a || b', generate new CS.FunctionApplication @f, [
+      new CS.LogicalOrOp @a, @b
+    ]

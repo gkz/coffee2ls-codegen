@@ -63,8 +63,8 @@ suite 'Operators', ->
 
   test 'binary operators', ->
     eq '0; 1', generate new CS.SeqOp @zero, @one
-    eq '0 || 1', generate new CS.LogicalOrOp @zero, @one
-    eq '0 && 1', generate new CS.LogicalAndOp @zero, @one
+    eq '0 or 1', generate new CS.LogicalOrOp @zero, @one
+    eq '0 and 1', generate new CS.LogicalAndOp @zero, @one
     eq '0 .|. 1', generate new CS.BitOrOp @zero, @one
     eq '0 .^. 1', generate new CS.BitXorOp @zero, @one
     eq '0 .&. 1', generate new CS.BitAndOp @zero, @one

@@ -351,6 +351,12 @@ do (exports = exports ? this.cscodegen = {}) ->
         _op = operators[ast.className]
         if ast.className in ['InOp', 'OfOp', 'InstanceofOp'] and parentClassName is 'LogicalNotOp'
           _op = "not #{_op}"
+        if not options.inFunctionApplication
+          if ast.className is 'LogicalOrOp'
+            _op = 'or'
+          else if ast.className is 'LogicalAndOp'
+            _op = 'and'
+
         prec = precedence[ast.className]
         needsParens = prec < options.precedence
         options = clone options,
@@ -416,6 +422,7 @@ do (exports = exports ? this.cscodegen = {}) ->
         options = clone options,
           ancestors: [ast, options.ancestors...]
           precedence: precedence[ast.className]
+          inFunctionApplication: true
         _op = operators[ast.className]
         _fn = generate ast.function, options
         _fn = parens _fn if needsParensWhenOnLeft ast.function
