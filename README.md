@@ -1,8 +1,9 @@
-lscodegen
+coffee2ls-codegen
 =========
 
-LiveScript code generator
+Generates LiveScript code from CoffeeScriptRedux AST nodes.
 
-For now, create a symbolic link to the CoffeeScriptRedux project in
-`node_modules/CoffeeScriptRedux`. I don't want to add a submodule until it is
-less volatile.
+Usage:
+
+    (require 'coffee2ls-codegen').generate CoffeeScriptNodes
+

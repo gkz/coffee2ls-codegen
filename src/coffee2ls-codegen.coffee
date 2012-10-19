@@ -1,4 +1,4 @@
-do (exports = exports ? this.cscodegen = {}) ->
+do (exports = exports ? this.coffee2ls-codegen = {}) ->
 
   TAB = '  '
   indent = (code) -> ("#{TAB}#{line}" for line in code.split '\n').join '\n'

@@ -3,7 +3,7 @@ inspect = (o) -> util.inspect o, no, 2, yes
 
 global[name] = func for name, func of require 'assert'
 libDir = if typeof _$jscoverage is 'undefined' then 'lib' else 'instrumented'
-{generate: global.generate} = require "../#{libDir}/cscodegen"
+{generate: global.generate} = require "../#{libDir}/coffee2ls-codegen"
 global.CS = require 'CoffeeScriptRedux/lib/coffee-script/nodes'
 
 # See http://wiki.ecmascript.org/doku.php?id=harmony:egal

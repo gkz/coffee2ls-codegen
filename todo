@@ -1,9 +1,0 @@
-# NODES
-    Identifiers: [
-      GenSym: null # :: string -> string -> GenSym
-    ]
-
-====
-
-# Redux doesn't deal with comments yet - block ones are thrown out
-Change all your block comments ### ### to /* */
