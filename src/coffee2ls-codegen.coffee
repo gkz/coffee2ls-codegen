@@ -38,7 +38,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
       when 'PreIncrementOp', 'PreDecrementOp', 'UnaryPlusOp', 'UnaryNegateOp', 'LogicalNotOp', 'BitNotOp', 'DoOp', 'TypeofOp', 'DeleteOp'
         needsParensWhenOnLeft ast.expression
       when 'FunctionApplication' then ast.arguments.length > 0
-      when 'Super' then yes
+      when 'Super', 'Try' then yes
       else no
 
   eq = (nodeA, nodeB) ->
@@ -673,7 +673,8 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
             "\nfinally\n#{indent finallyBody}"
           else ''
 
-        "try\n#{indent _body}\ncatch#{_catchAssg}#{_catchBody}#{_finally}"
+        out = "try\n#{indent _body}\ncatch#{_catchAssg}#{_catchBody}#{_finally}"
+        if usedAsExpression then parens out else out
 
       when 'Super'
         options.ancestors = [ast, options.ancestors...]
