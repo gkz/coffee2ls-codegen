@@ -19,7 +19,7 @@ suite 'Loop, Ranges, and Slices', ->
     eq '[1 til 2]', generate new CS.Range false, @one, @two
 
   test 'downward range', ->
-    eq '[2 to 1 by -1]', generate new CS.Range true, @two, @one
+    eq '[2 to 1]', generate new CS.Range true, @two, @one
 
   test 'equal exclusive range', ->
     eq '[]', generate new CS.Range false, @one, @one

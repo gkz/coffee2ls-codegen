@@ -532,10 +532,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
           left = +(generate ast.left, options)
           right = +(generate ast.right, options)
           if left is left and right is right # NaN check
-            if left > right
-              _by = ' by -1'
-            else if left is right and not ast.isInclusive
-              if ast.className is 'Range'
+            if left is right and not ast.isInclusive
                 _main = '[]'
           else
             nonLiteral = true
