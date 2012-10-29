@@ -433,6 +433,10 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
             " #{ generateArgs ast.arguments, options }"
           else
             '()'
+          if _fn_indented = _fn.match /\n(\s+).*$/
+            # reindent _argList for only the lines that are indented
+            [matched, spaces] = _fn_indented
+            _argList = (line.replace(new RegExp("^#{spaces}"), "#{TAB}#{spaces}") for line in _argList.split '\n').join '\n'
           "#{_fn}#{_op}#{_argList}"
 
       when 'MemberAccessOp', 'SoakedMemberAccessOp', 'ProtoMemberAccessOp', 'SoakedProtoMemberAccessOp'
@@ -442,13 +446,21 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         options = clone options,
           ancestors: [ast, options.ancestors...]
           precedence: prec
+        newline = no
         if ast.expression.className is 'This'
           _expr = '@'
           _op = '' if ast.className is 'MemberAccessOp'
         else
           _expr = generate ast.expression, options
-          _expr = parens _expr if needsParensWhenOnLeft ast.expression
-        "#{_expr}#{_op}#{ast.memberName}"
+          reg = new RegExp ("\\n\\s*\\.#{ast.memberName}$")
+          if ast.raw && ast.raw.match reg
+            newline = yes
+          else
+            _expr = parens _expr if needsParensWhenOnLeft ast.expression
+        if newline
+          "#{_expr}\n" + indent "#{_op}#{ast.memberName}"
+        else
+          "#{_expr}#{_op}#{ast.memberName}"
 
       when 'DynamicMemberAccessOp', 'SoakedDynamicMemberAccessOp', 'DynamicProtoMemberAccessOp', 'SoakedDynamicProtoMemberAccessOp'
         _op = operators[ast.className]
