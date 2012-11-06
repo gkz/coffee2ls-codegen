@@ -507,7 +507,14 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
 
       when 'DoOp'
         exp = ast.expression
-        if exp.className is 'Function' and ((exp.body? and exp.body.className isnt 'Undefined') or exp.parameters.length)
+        if exp.className is 'AssignOp' and exp.expression.className is 'Function'
+          prec = precedence[ast.className]
+          needsParens = prec < options.precedence
+          options = clone options,
+            ancestors: [ast, options.ancestors...]
+            precedence: prec
+          "(#{ generate exp, options })(#{ generateArgs exp.expression.parameters, options })"
+        else if exp.className is 'Function' and ((exp.body? and exp.body.className isnt 'Undefined') or exp.parameters.length)
           options = clone options,
             ancestors: [ast, options.ancestors...]
             precedence: prec
