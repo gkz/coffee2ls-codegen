@@ -5,7 +5,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
   parens = (code) -> "(#{code})"
 
   formatStringData = (data) ->
-    data.replace /[^\x20-\x7e]|['\\]/g, (c) ->
+    data.replace /[\x00-\x1F]|['\\]/g, (c) ->
       switch c
         when '\0' then '\\0'
         when '\b' then '\\b'
@@ -702,6 +702,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
 
       when 'Class'
         options.ancestors = [ast, options.ancestors...]
+
         _s = ''
         _nameAssg = if ast.nameAssignee
             _s = ' '
