@@ -5,20 +5,22 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
   parens = (code) -> "(#{code})"
 
   formatStringData = (data) ->
-    data.replace /[\x00-\x1F]|['\\]/g, (c) ->
-      switch c
-        when '\0' then '\\0'
-        when '\b' then '\\b'
-        when '\t' then '\\t'
-        when '\n' then '\\n'
-        when '\f' then '\\f'
-        when '\r' then '\\r'
-        when '\'' then '\\\''
-        when '\\' then '\\\\'
-        else
-          escape = (c.charCodeAt 0).toString 16
-          pad = "0000"[escape.length...]
-          "\\u#{pad}#{escape}"
+    data
+      .replace /[\x00-\x1F]|['\\]/g, (c) ->
+        switch c
+          when '\0' then '\\0'
+          when '\b' then '\\b'
+          when '\t' then '\\t'
+          when '\n' then '\\n'
+          when '\f' then '\\f'
+          when '\r' then '\\r'
+          when '\'' then '\\\''
+          when '\\' then '\\\\'
+          else
+            escape = (c.charCodeAt 0).toString 16
+            pad = "0000"[escape.length...]
+            "\\u#{pad}#{escape}"
+      .replace /\\\\(u[0-9a-f]{4})/, '\\$1'
 
   formatInterpolation = (ast, options) ->
     switch ast.className
