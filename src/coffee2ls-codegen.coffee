@@ -631,9 +631,8 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         if comprehension
           "[#{_body} #{_mainPart}]"
         else
-          _output = "#{_mainPart}\n#{indent _body}"
           needsParens = true if usedAsExpression and parentClassName isnt 'AssignOp'
-          _output
+          "#{_mainPart}\n#{indent _body}"
 
       when 'While'
         options.ancestors = [ast, options.ancestors...]
