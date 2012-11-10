@@ -20,7 +20,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
             escape = (c.charCodeAt 0).toString 16
             pad = "0000"[escape.length...]
             "\\u#{pad}#{escape}"
-      .replace /\\\\(u[0-9a-f]{4})/, '\\$1'
+      .replace /\\\\(u[0-9a-fA-F]{4})/, '\\$1'
 
   formatInterpolation = (ast, options) ->
     switch ast.className
