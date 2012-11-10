@@ -575,7 +575,8 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
           else if nonLiteral and not _by # hmmm
             firstRef = genVar options
             secondRef = genVar options
-            parens "if (#{firstRef} = #{_left}) > (#{secondRef} = #{_right}) then [#{firstRef} #{_mid} #{secondRef} by -1] else [#{firstRef} #{_mid} #{secondRef}]"
+            needsParens = true
+            "if (#{firstRef} = #{_left}) > (#{secondRef} = #{_right}) then [#{firstRef} #{_mid} #{secondRef} by -1] else [#{firstRef} #{_mid} #{secondRef}]"
           else
             "[#{_left} #{_mid} #{_right}#{_by}]"
 
@@ -631,9 +632,8 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
           "[#{_body} #{_mainPart}]"
         else
           _output = "#{_mainPart}\n#{indent _body}"
-          if usedAsExpression and parentClassName isnt 'AssignOp'
-            parens _output
-          else _output
+          needsParens = true if usedAsExpression and parentClassName isnt 'AssignOp'
+          _output
 
       when 'While'
         options.ancestors = [ast, options.ancestors...]
@@ -691,8 +691,8 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
             "\nfinally\n#{indent finallyBody}"
           else ''
 
-        out = "try\n#{indent _body}\ncatch#{_catchAssg}#{_catchBody}#{_finally}"
-        if usedAsExpression then parens out else out
+        needsParens = true if usedAsExpression
+        "try\n#{indent _body}\ncatch#{_catchAssg}#{_catchBody}#{_finally}"
 
       when 'Super'
         options.ancestors = [ast, options.ancestors...]
