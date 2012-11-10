@@ -719,6 +719,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
             "\n#{indent generate ast.body, options}"
           else ''
 
+        needsParens = true if usedAsExpression
         if ast.nameAssignee?.className is 'MemberAccessOp'
           "#{_nameAssg} = class#{_parent}#{_body}"
         else
