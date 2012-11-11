@@ -188,6 +188,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         _condition = generate ast.condition, options
 
         isMultiline =
+          parentClassName is 'Block' or
           _consequent.length > 90 or
           _alternate.length > 90 or
           '\n' in _alternate or
@@ -736,6 +737,12 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         _assignee = generate ast.assignee, options
         _expression = generate ast.expression, options
         "#{_assignee}: #{_expression}"
+
+      when 'Comment'
+        "##{ ast.content }"
+
+      when 'BlockComment'
+        "/*#{ ast.content }*/"
 
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
