@@ -76,6 +76,18 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
     options.varsFunc.push out
     out
 
+  generateComments = (options) ->
+    co = for comment in options.comments[0]
+      switch comment.type
+        when 'single' then "##{ comment.content }"
+        when 'block'
+          if /\n/.test comment.content
+            "/*\n#{ comment.content }\n*/"
+          else
+            "/*#{ comment.content }*/"
+    return '' unless co.length
+    '\n' + co.join('\n')
+
   levels = [
     ['SeqOp'] # Sequence
     ['Conditional', 'ForIn', 'ForOf', 'While'] # Control Flow
@@ -173,10 +185,16 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         options = clone options,
           ancestors: [ast, options.ancestors...]
           precedence: 0
+        options.comments = [] unless options.comments
+        options.comments.unshift []
         if ast.statements.length is 0 then generate (new Undefined).g(), options
         else
           sep = if parentClassName is 'Program' then '\n\n' else '\n'
-          (generate s, options for s in ast.statements).join sep
+          out = for s in ast.statements
+            options.comments[0] = []
+            (generate s, options) + (generateComments options)
+          options.comments.shift()
+          out.join sep
 
       when 'Conditional'
         options.ancestors.unshift ast
@@ -738,13 +756,8 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         _expression = generate ast.expression, options
         "#{_assignee}: #{_expression}"
 
-      when 'Comment'
-        "##{ ast.content }"
-
-      when 'BlockComment'
-        "/*#{ ast.content }*/"
-
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
-
-    if needsParens then (parens src) else src
+    if ast.comments and ast.comments.length
+      options.comments[0] = options.comments[0].concat ast.comments
+    if needsParens then parens src else src
