@@ -766,7 +766,6 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
     if ast.comments and ast.comments.length
-      console.log 'ast.comments', ast.comments
       options.comments ?= []
       options.comments[0] ?= []
       options.comments[0] = options.comments[0].concat ast.comments
