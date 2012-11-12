@@ -179,7 +179,10 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
 
       when 'Program'
         options.ancestors = [ast, options.ancestors...]
-        if ast.body? then generate ast.body, options else ''
+        out = if ast.body? then generate ast.body, options else ''
+        if ast.comments
+          out += generateComments ast.comments
+        out
 
       when 'Block'
         options = clone options,
@@ -763,6 +766,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
     if ast.comments and ast.comments.length
       console.log 'ast.comments', ast.comments
+      options.comments ?= []
       options.comments[0] ?= []
       options.comments[0] = options.comments[0].concat ast.comments
     if needsParens then parens src else src
