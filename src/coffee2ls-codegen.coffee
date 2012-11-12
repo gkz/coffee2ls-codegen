@@ -81,12 +81,12 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
       switch comment.type
         when 'single' then "##{ comment.content }"
         when 'block'
-          if /\n/.test comment.content
+          if /\n/.test comment.raw
             "/*\n#{ comment.content }\n*/"
           else
             "/*#{ comment.content }*/"
     return '' unless co.length
-    '\n' + co.join('\n')
+    "\n#{co.join('\n')}\n"
 
   levels = [
     ['SeqOp'] # Sequence
@@ -181,7 +181,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         options.ancestors = [ast, options.ancestors...]
         out = if ast.body? then generate ast.body, options else ''
         if ast.comments
-          out += generateComments ast.comments
+          out = generateComments(ast.comments) + out
         out
 
       when 'Block'
@@ -195,11 +195,12 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
           sep = if parentClassName is 'Program' then '\n\n' else '\n'
           out = for s in ast.statements
             options.comments[0] = []
-            (generate s, options) + (generateComments options.comments[0])
+            generated = generate s, options
+            "#{generateComments options.comments[0]}#{generated}"
           options.comments.shift()
           out = out.join sep
           if parentClassName is 'Program' and ast.comments
-            out += generateComments ast.comments
+            out = generateComments(ast.comments) + out
           out
 
       when 'Conditional'
