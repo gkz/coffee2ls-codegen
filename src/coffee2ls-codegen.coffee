@@ -86,7 +86,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
           else
             "/*#{ comment.content }*/"
     return '' unless co.length
-    "\n#{co.join('\n')}\n"
+    "#{co.join('\n')}\n"
 
   levels = [
     ['SeqOp'] # Sequence
