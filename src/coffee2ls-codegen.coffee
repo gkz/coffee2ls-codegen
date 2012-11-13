@@ -76,7 +76,9 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
     options.varsFunc.push out
     out
 
-  generateComments = (comments) ->
+  comments = []
+
+  generateComments = ->
     co = for comment in comments
       switch comment.type
         when 'single' then "##{ comment.content }"
@@ -85,6 +87,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
             "/*\n#{ comment.content }\n*/"
           else
             "/*#{ comment.content }*/"
+    comments = []
     return '' unless co.length
     "#{co.join('\n')}\n"
 
@@ -174,34 +177,25 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
     parent = options.ancestors[0]
     parentClassName = parent?.className
     usedAsExpression = parent? and parentClassName isnt 'Block'
+    if ast.comments
+      comments = comments.concat ast.comments
 
     src = switch ast.className
-
       when 'Program'
         options.ancestors = [ast, options.ancestors...]
         out = if ast.body? then generate ast.body, options else ''
-        if ast.comments
-          out = generateComments(ast.comments) + out
-        out
+        "#{generateComments()}#{out}"
 
       when 'Block'
         options = clone options,
           ancestors: [ast, options.ancestors...]
           precedence: 0
-        options.comments = [] unless options.comments
-        options.comments.unshift []
         if ast.statements.length is 0 then generate (new Undefined).g(), options
         else
           sep = if parentClassName is 'Program' then '\n\n' else '\n'
           out = for s in ast.statements
-            options.comments[0] = []
-            generated = generate s, options
-            "#{generateComments options.comments[0]}#{generated}"
-          options.comments.shift()
-          out = out.join sep
-          if parentClassName is 'Program' and ast.comments
-            out = generateComments(ast.comments) + out
-          out
+            "#{generateComments()}#{generate s, options}"
+          out.join sep
 
       when 'Conditional'
         options.ancestors.unshift ast
@@ -765,8 +759,4 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
 
       else
         throw new Error "Non-exhaustive patterns in case: #{ast.className}"
-    if ast.comments and ast.comments.length
-      options.comments ?= []
-      options.comments[0] ?= []
-      options.comments[0] = options.comments[0].concat ast.comments
     if needsParens then parens src else src
