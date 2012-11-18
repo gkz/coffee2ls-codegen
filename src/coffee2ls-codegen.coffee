@@ -281,8 +281,6 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         memberAccessOps = ['MemberAccessOp', 'ProtoMemberAccessOp', 'SoakedMemberAccessOp', 'SoakedProtoMemberAccessOp']
         if eq ast.key, ast.expression
           "#{key_}"
-        else if ast.expression.className in memberAccessOps and ast.key.data is ast.expression.memberName
-          "#{expression_}"
         else
           "#{key_}: #{expression_}"
 
