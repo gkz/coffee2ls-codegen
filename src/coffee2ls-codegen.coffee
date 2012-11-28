@@ -514,11 +514,14 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
 
       when 'RegExp', 'HeregExp'
         options.ancestors = [ast, options.ancestors...]
-        _symbol = '//'
         _exprs = if ast.className is 'RegExp'
+          _symbol = '/'
           ast.data
         else
+          _symbol = '//'
           formatInterpolation ast.expression, options
+
+        _symbol = '//' unless _exprs
 
         _flags = ''
         _flags += flag for flag, state of ast.flags when state
