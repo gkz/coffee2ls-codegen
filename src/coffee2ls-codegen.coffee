@@ -225,7 +225,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
           "if #{_condition} then #{_consequent}#{_alternate}"
 
       when 'Identifier'
-        if ast.data in lsReserved
+        if ast.data in lsReserved and not options.isKey
           ast.data + '$$'
         else
           ast.data
@@ -276,7 +276,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
         options = clone options,
           ancestors: [ast, options.ancestors...]
           precedence: precedence.AssignmentExpression
-        key_ = generate ast.key, options
+        key_ = generate ast.key, (clone options, {isKey: true})
         expression_ = generate ast.expression, options
         memberAccessOps = ['MemberAccessOp', 'ProtoMemberAccessOp', 'SoakedMemberAccessOp', 'SoakedProtoMemberAccessOp']
         if eq ast.key, ast.expression
