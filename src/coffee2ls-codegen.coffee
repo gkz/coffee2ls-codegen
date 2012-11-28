@@ -226,7 +226,7 @@ do (exports = exports ? this.coffee2ls-codegen = {}) ->
 
       when 'Identifier'
         if ast.data in lsReserved
-          genVar options, ast.data
+          ast.data + '$$'
         else
           ast.data
 
